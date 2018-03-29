@@ -305,6 +305,9 @@ class Appointments extends CI_Controller {
             // for an available provider that will provide the requested service.
             if ($this->input->post('provider_id') === ANY_PROVIDER) {
                 $_POST['provider_id'] = $this->_search_any_provider($this->input->post('service_id'), $this->input->post('selected_date'));
+                var_dump($_POST['provider_id']);
+                exit;
+
                 if ($this->input->post('provider_id') === NULL) {
                     $this->output
                             ->set_content_type('application/json')
@@ -319,6 +322,7 @@ class Appointments extends CI_Controller {
             $empty_periods = $this->_get_provider_available_time_periods($this->input->post('provider_id'), $this->input->post('service_id'), $this->input->post('selected_date'), $exclude_appointments);
 
             $available_hours = $this->_calculate_available_hours($empty_periods, $this->input->post('selected_date'), $this->input->post('service_duration'), filter_var($this->input->post('manage_mode'), FILTER_VALIDATE_BOOLEAN), $service['availabilities_type']);
+
 
             if ($service['attendants_number'] > 1) {
                 $available_hours = $this->_get_multiple_attendants_hours($this->input->post('selected_date'), $service, $provider);
@@ -396,11 +400,24 @@ class Appointments extends CI_Controller {
 
             $customer_id = $this->customers_model->add($customer);
             $appointment['id_users_customer'] = $customer_id;
+
+
+
             $appointment['is_unavailable'] = (int) $appointment['is_unavailable']; // needs to be type casted
+
+
             $appointment['id'] = $this->appointments_model->add($appointment);
+
+
+
             $appointment['hash'] = $this->appointments_model->get_value('hash', $appointment['id']);
+
+
+
 //modificado jose cadenas
             $appointment['attendance_status'] = !isset($appointment['attendance_status']) ? 'registered' : $appointment['attendance_status'];
+
+
 
 
             $provider = $this->providers_model->get_row($appointment['id_users_provider']);
@@ -616,8 +633,12 @@ class Appointments extends CI_Controller {
         }
 
         if ($appointment['id_users_provider'] === ANY_PROVIDER) {
+
             $appointment['id_users_provider'] = $this->_search_any_provider($appointment['id_services'], date('Y-m-d', strtotime($appointment['start_datetime'])));
             $this->input->post('post_data')['appointment']['id_users_provider'] = $appointment['id_users_provider'];
+
+
+
             return TRUE; // The selected provider is always available.
         }
 
@@ -817,9 +838,11 @@ class Appointments extends CI_Controller {
      * @return int Returns the ID of the provider that can provide the service at the selected date.
      */
     protected function _search_any_provider($service_id, $selected_date) {
+
         $this->load->model('providers_model');
         $this->load->model('services_model');
         $available_providers = $this->providers_model->get_available_providers();
+
         $service = $this->services_model->get_row($service_id);
         $provider_id = NULL;
         $max_hours_count = 0;
@@ -830,6 +853,9 @@ class Appointments extends CI_Controller {
                     $empty_periods = $this->_get_provider_available_time_periods($provider['id'], $service_id, $selected_date);
                     $available_hours = $this->_calculate_available_hours($empty_periods, $selected_date, $service['duration'], FALSE, $service['availabilities_type']);
                     if (count($available_hours) > $max_hours_count) {
+
+
+
                         $provider_id = $provider['id'];
                         $max_hours_count = count($available_hours);
                     }
@@ -895,6 +921,8 @@ class Appointments extends CI_Controller {
     protected function _get_multiple_attendants_hours(
     $selected_date, $service, $provider
     ) {
+
+
         $this->load->model('appointments_model');
         $this->load->model('services_model');
         $this->load->model('providers_model');
