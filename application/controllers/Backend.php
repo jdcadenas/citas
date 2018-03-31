@@ -58,8 +58,9 @@ class Backend extends CI_Controller {
         $this->load->model('customers_model');
         $this->load->model('settings_model');
         $this->load->model('roles_model');
-        $this->load->model('user_model');
         $this->load->model('secretaries_model');
+        $this->load->model('user_model');
+        $this->load->model('invoices_model');
 
         $view['base_url'] = $this->config->item('base_url');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
@@ -69,6 +70,7 @@ class Backend extends CI_Controller {
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
+        $view['available_invoice'] = $this->invoices_model->get_available_invoices();
         $view['customers'] = $this->customers_model->get_batch();
         $user = $this->user_model->get_settings($this->session->userdata('user_id'));
         $view['calendar_view'] = $user['settings']['calendar_view'];
@@ -85,8 +87,7 @@ class Backend extends CI_Controller {
 
         if ($appointment_hash !== '' && count($results) > 0) {
             $appointment = $results[0];
-            vardump($appointment);
-            exit;
+
             $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
             $view['edit_appointment'] = $appointment; // This will display the appointment edit dialog on page load.
         } else {
@@ -190,6 +191,7 @@ class Backend extends CI_Controller {
         $view['active_menu'] = PRIV_USERS;
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['date_format'] = $this->settings_model->get_setting('date_format');
+        $view['role_slug'] = $this->session->userdata('role_slug');
         $view['admins'] = $this->admins_model->get_batch();
         $view['providers'] = $this->providers_model->get_batch();
         $view['secretaries'] = $this->secretaries_model->get_batch();
@@ -221,6 +223,8 @@ class Backend extends CI_Controller {
         $this->load->library('session');
         $user_id = $this->session->userdata('user_id');
 
+
+
         $view['base_url'] = $this->config->item('base_url');
         $view['user_display_name'] = $this->user_model->get_user_display_name($user_id);
         $view['active_menu'] = PRIV_SYSTEM_SETTINGS;
@@ -233,6 +237,49 @@ class Backend extends CI_Controller {
 
         $this->load->view('backend/header', $view);
         $this->load->view('backend/settings', $view);
+        $this->load->view('backend/footer', $view);
+    }
+
+    /**
+     * Displays the backend invoices page.
+     *
+     * Here the admin user will be able to organize and create the invoices that the user will be able to book
+     * appointments in frontend.
+     *
+     * NOTICE: The invoice that each provider is able to service is managed from the backend services page.
+     */
+    public function invoices() {
+        $this->session->set_userdata('dest_url', site_url('backend/users'));
+
+        if (!$this->_has_privileges(PRIV_USERS)) {
+            return;
+        }
+
+        $this->load->model('providers_model');
+        $this->load->model('secretaries_model');
+        $this->load->model('admins_model');
+        $this->load->model('services_model');
+        $this->load->model('settings_model');
+        $this->load->model('user_model');
+        $this->load->model('invoices_model');
+        $view['base_url'] = $this->config->item('base_url');
+        $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
+        $view['active_menu'] = PRIV_INVOICES;
+        $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['date_format'] = $this->settings_model->get_setting('date_format');
+        $view['role_slug'] = $this->session->userdata('role_slug');
+        $view['admins'] = $this->admins_model->get_batch();
+        $view['providers'] = $this->providers_model->get_batch();
+        $view['secretaries'] = $this->secretaries_model->get_batch();
+        $view['services'] = $this->services_model->get_batch();
+        $view['invoices'] = $this->invoices_model->get_available_invoices();
+
+
+        $view['working_plan'] = $this->settings_model->get_setting('company_working_plan');
+        $this->set_user_data($view);
+
+        $this->load->view('backend/header', $view);
+        $this->load->view('backend/invoices', $view);
         $this->load->view('backend/footer', $view);
     }
 

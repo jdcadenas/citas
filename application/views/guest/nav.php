@@ -40,12 +40,16 @@
                                 <li><a href="<?= site_url('home'); ?>" class="active">Inicio</a></li>
                                 <li><a href="<?= site_url('home/about'); ?>">Acerca de</a></li>
                                 <li><a href="<?= site_url('home/gallery'); ?>">Galería</a></li>
+                                <!--
+
                                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span data-letters="Pages">Páginas</span><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="<?= site_url('home/icons'); ?>">Iconos</a></li>
                                         <li><a href="<?= site_url('home/codes'); ?>">Códigos</a></li>
                                     </ul>
                                 </li>
+
+                                -->
                                 <li><a href="<?= site_url('home/contact'); ?>">Contacto</a></li>
                             </ul>
                         </div>

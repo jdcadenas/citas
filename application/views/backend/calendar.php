@@ -212,17 +212,25 @@
                         <!--Modificado jose cadenas-->
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
-                                <label for="attendance-status" class="control-label" ><?php echo $this->lang->line('attendance_status'); ?></label>
+                                <label for="estado" class="control-label" >
+                                    <?php echo $this->lang->line('attendance_status'); ?>
+                                </label>
+
+                                <div id="estado" class="btn-group" data-toggle="buttons">
+                                    <label class="btn btn-default active">
+                                        <input type="radio" class="estado" name="estado" autocomplete="off" checked value="registrado"> Registrado
+                                    </label>
+                                    <label class="btn btn-default">
+                                        <input type="radio" class="estado" name="estado" autocomplete="off" value="confirmado"> Confirmado
+                                    </label>
+                                    <label class="btn btn-default">
+                                        <input type="radio" class="estado" name="estado" autocomplete="off" value="completado"> Completado
+                                    </label>
+                                </div>
 
 
-                                <select id="attendance-status" class="required form-control">
-                                    <option value="registered" class="as as_registered">Registrado</option>
-                                    <option value="checked_in" class="as as_checked_in">Chequeado</option>
-                                </select>
 
                             </div>
-                        </div>
-                        </div>
 
                     </fieldset>
 

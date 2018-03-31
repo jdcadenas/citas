@@ -18,16 +18,15 @@ $config['mailtype'] = 'html'; // or 'text'
 $config['protocol'] = 'smtp';
 
 //El servidor de correo que utilizaremos
-$config["smtp_host"] = 'smtp.gmail.com';
-
-//Nuestro usuario
+$config["smtp_host"] = 'ssl://smtp.googlemail.com';
+//Nuestro usuario smtp.gmail.com
 $config["smtp_user"] = 'jdcadenas@gmail.com';
 
 //Nuestra contraseña
 $config["smtp_pass"] = '9876jD$$';
-
+$config['smtp_crypto'] = 'ssl';
 //El puerto que utilizará el servidor smtp
-$config["smtp_port"] = '587';
+$config["smtp_port"] = '465';
 //El juego de caracteres a utilizar
 $config['charset'] = 'utf-8';
 

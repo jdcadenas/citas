@@ -19,6 +19,12 @@ root {
 
 /* BACKEND GENERAL ELEMENTS
    -------------------------------------------------------------------- */
+.noActive{
+    color: #3276b1;
+    background-color: #fff;
+}
+/*  jose cadenas xxxxxx */
+
 #header {
     background-color: #A8C859;
     border-bottom: 4px solid #c0f1d6;
@@ -155,7 +161,7 @@ body .modal .modal-title {
 
 body .modal-header {
     padding: 12px 15px;
-    background: #39c678;
+    background: #3855c6;
     border-bottom: 4px solid #c0f1d6;
 }
 
@@ -252,7 +258,7 @@ body legend {
 
 .backend-page .filter-records .results .entry.selected {
     background-color: #F4F4F4;
-    border-right: 5px solid #39c678;
+    border-right: 5px solid #3851c6;
 }
 
 .backend-page .filter-records .results hr {
@@ -411,7 +417,7 @@ body legend {
 }
 
 #existing-customers-list div:hover {
-    background: #3DD481;
+    background: #4887f0;
     font-weight: bold;
     color: #FFF;
     cursor: pointer;
@@ -495,7 +501,7 @@ body .form-horizontal .controls {
 }
 
 #calendar .calendar-view .date-column .provider-column .event.unavailability {
-    background: #409482;
+    background: #3f6794;
     color: #fff;
 
 }
@@ -629,7 +635,7 @@ body .form-horizontal .controls {
 
 #users-page #providers .switch-view .current {
     color: #FFF;
-    background: #39c678;
+    background: #3855c6;
 }
 
 #users-page #providers .details-view,

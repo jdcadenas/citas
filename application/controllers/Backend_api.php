@@ -752,6 +752,37 @@ class Backend_api extends CI_Controller {
     }
 
     /**
+     * [AJAX] Save (insert or update) invoicerecord.
+     *
+     * Required POST Parameters:
+     *
+     * - array $_POST['invoice] Contains the service data (json encoded).
+     */
+    public function ajax_save_invoice() {
+        try {
+            $this->load->model('invoices_model');
+            $service = json_decode($this->input->post('invoice'), TRUE);
+
+            $REQUIRED_PRIV = (!isset($service['id'])) ? $this->privileges[PRIV_INVOICES]['add'] : $this->privileges[PRIV_INVOICES]['edit'];
+            if ($REQUIRED_PRIV == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+
+            $invoice_id = $this->services_model->add($invoice);
+            $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode([
+                        'status' => AJAX_SUCCESS,
+                        'id' => $invoice_id
+            ]));
+        } catch (Exception $exc) {
+            $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+        }
+    }
+
+    /**
      * [AJAX] Delete service record from database.
      *
      * Required POST Parameters:
@@ -887,6 +918,36 @@ class Backend_api extends CI_Controller {
             $this->output
                     ->set_content_type('application/json')
                     ->set_output(json_encode($categories));
+        } catch (Exception $exc) {
+            $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+        }
+    }
+
+    /**
+     * [AJAX] Filter facturas items with key string.
+     *
+     * Required POST Parameters:
+     *
+     * - string $_POST['key'] The key string used to filter the records.
+     *
+     * Outputs a JSON encoded array back to client with the facturas records.
+     */
+    public function ajax_filter_items_invoices() {
+        try {
+            if ($this->privileges[PRIV_INVOICES]['view'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+
+            $this->load->model('invoices_model');
+            $key = $this->db->escape_str($this->input->post('key'));
+            // $where = '(name LIKE "%' . $key . '%" OR description LIKE "%' . $key . '%")';
+            $where = '(razon_social LIKE "%' . $key . '%" )';
+            $invoices = $this->invoices_model->get_all_invoices($where);
+            $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($invoices));
         } catch (Exception $exc) {
             $this->output
                     ->set_content_type('application/json')

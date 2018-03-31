@@ -1,8 +1,14 @@
 <div class="banner-w3text w3layouts">
     <div class="container">
-        <h2>Centro Integral de Ayuda al Niño</h2>
-        <div class="w3lsmore w3-agilebtn">
-            <a  href="<?= site_url('appointments'); ?>"><i class="fa fa-book" aria-hidden="true"></i><span >Hacer cita</span></a>
+        <div class="page-header">
+            <h2 >Centro Integral de Ayuda al Niño</h2>
+        </div>
+        <div class="">
+            <a class="btn btn-primary btn-lg btn-primary-outline " href="<?= site_url('appointments'); ?>">
+                <i class="fa fa-book" aria-hidden="true">
+
+                </i><span >Hacer cita</span>
+            </a>
         </div>
     </div>
 </div>

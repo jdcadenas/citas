@@ -83,6 +83,7 @@
                             </a>
                         </li>
 
+
                         <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'
                         ?>
                         <?php $active = ($active_menu == PRIV_SYSTEM_SETTINGS) ? 'active' : '' ?>
@@ -92,7 +93,15 @@
                                    <?= lang('settings') ?>
                             </a>
                         </li>
+                        <!--- jose cadenas -->
+                        <?php $hidden = ($privileges[PRIV_INVOICES]['view'] == TRUE) ? '' : 'hidden' ?>
+                        <?php $active = ($active_menu == PRIV_INVOICES) ? 'active' : '' ?>
+                        <li class="<?= $active . $hidden ?>">
+                            <a href="<?= site_url('backend/invoices') ?>" class="menu-item"
+                               title="manejo de pagos">Pagos
 
+                            </a>
+                        </li>
                         <li>
                             <a href="<?= site_url('user/logout') ?>" class="menu-item"
                                title="<?= lang('log_out_hint') ?>">

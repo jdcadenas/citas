@@ -7,7 +7,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 body{
     margin:0;
     font-family: 'Open Sans', sans-serif;
-    background: #fff;
+    background: #ffffd7;
 }
 body a{
     transition: 0.5s all;
@@ -20,7 +20,7 @@ body a{
 }
 h1,h2,h3,h4,h5,h6{
     margin:0;
-    font-family: 'Limelight', cursive;
+    font-family: 'Limelight';
 }
 p{
     margin:0;
@@ -44,7 +44,7 @@ body a:hover,body a:focus {
 /*-- header-w3layoutstop--*/
 .header-w3layoutstop {
     padding: 1em 0;
-    background: #02e2ff;
+    background: #4790CA;
 }
 .header-w3layoutstop p {
     color: #272621;
@@ -178,11 +178,11 @@ ul.nav.navbar {
 /*-- //top-nav --*/
 /*-- banner-w3text --*/
 .banner-w3text {
-    padding: 10em 0;
+    padding: 1em 0;
     text-align: center;
 }
 .banner-w3text h2 {
-    font-size: 10em;
+    font-size: 6em;
     color: #fff;
     letter-spacing: 7px;
 }
@@ -254,7 +254,7 @@ ul.nav.navbar {
 /*-- //banner-w3text --*/
 /*-- about --*/
 .about,.team ,.gallery,.special, .news, .services,.codes,.like ,.contact{
-    padding: 5em 0;
+    padding: 3em 0;
 }
 h3.w3ls-title {
     font-size: 4em;
@@ -429,7 +429,7 @@ h5.w3l-subtitle {
     left: 32%;
 }
 .news h4 {
-    color: #02b875;
+    color: #0170b8;
     font-size: 1.5em;
     padding: 0.8em 0 .5em;
     font-weight: 300;
@@ -725,7 +725,7 @@ img.img-responsive {
 }
 .about .tabcontent-grids ul li  i.fa {
     margin-right: 0.5em;
-    color: #333;
+    color: #003366;
 }
 /*-- progress-bars --*/
 .b_label {

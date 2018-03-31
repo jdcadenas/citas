@@ -11,13 +11,13 @@
 
 window.Backend = window.Backend || {};
 
- /**
-  * Backend
-  *
-  * This module contains functions that are used in the backend section of the application.
-  *
-  * @module Backend
-  */
+/**
+ * Backend
+ *
+ * This module contains functions that are used in the backend section of the application.
+ *
+ * @module Backend
+ */
 (function(exports) {
 
     'use strict';
@@ -29,10 +29,10 @@ window.Backend = window.Backend || {};
         window.console = window.console || function() {}; // IE compatibility
 
         $(window)
-            .on('resize', function() { 
-                Backend.placeFooterToBottom();
-            })
-            .trigger('resize');
+                .on('resize', function() {
+                    Backend.placeFooterToBottom();
+                })
+                .trigger('resize');
 
         $(document).ajaxStart(function() {
             $('#loading').show();
@@ -74,7 +74,7 @@ window.Backend = window.Backend || {};
     exports.PRIV_USERS = 'users';
     exports.PRIV_SYSTEM_SETTINGS = 'system_settings';
     exports.PRIV_USER_SETTINGS = 'user_settings';
-
+    exports.PRIV_INVOICES = 'invoices';
     /**
      * Place the backend footer always on the bottom of the page.
      */
@@ -127,11 +127,11 @@ window.Backend = window.Backend || {};
 
         var notificationHtml =
                 '<div class="notification alert">' +
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                    '</button>' +
-                    '<strong>' + message + '</strong>' + 
-                    customActionsHtml + 
+                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                '<span aria-hidden="true">&times;</span>' +
+                '</button>' +
+                '<strong>' + message + '</strong>' +
+                customActionsHtml +
                 '</div>';
 
         $('#notification').html(notificationHtml);

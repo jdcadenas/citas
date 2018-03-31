@@ -30,18 +30,19 @@ class Config {
     // ------------------------------------------------------------------------
     // GENERAL SETTINGS
     // ------------------------------------------------------------------------
-    const BASE_URL = 'http://192.168.2.7/citas';
-    //const BASE_URL = 'https://jdcadenas.000webhostapp.com';
+    const BASE_URL = 'http://192.168.2.6/citas';
+    //const BASE_URL = 'https://centrocian.000webhostapp.com';
     const LANGUAGE = 'spanish';
-    const DEBUG_MODE = FALSE;
+    const DEBUG_MODE = TRUE;
     // ------------------------------------------------------------------------
     // DATABASE SETTINGS
     // ------------------------------------------------------------------------
 
     const DB_HOST = 'localhost';
+    //const DB_NAME = 'id775760_cian';
     const DB_NAME = 'citas';
     const DB_USERNAME = 'root';
-    //const DB_USERNAME = 'id2822537_jdcadenas';
+    //const DB_USERNAME = 'id775760_centrocian';
     //const DB_PASSWORD = 'carito1965';
     const DB_PASSWORD = '';
     // ------------------------------------------------------------------------

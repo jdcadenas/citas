@@ -185,6 +185,7 @@ window.FrontendBook = window.FrontendBook || {};
             // Add the "Any Provider" entry.
             if ($('#select-provider option').length >= 1) {
                 $('#select-provider').append(new Option('- ' + EALang.any_provider + ' -', 'any-provider'));
+                $("#select-provider option:contains('any-provider')").attr('selected', 'selected');
             }
 
             FrontendBookApi.getUnavailableDates($('#select-provider').val(), $(this).val(),

@@ -303,10 +303,9 @@ class Appointments extends CI_Controller {
 
             // If the user has selected the "any-provider" option then we will need to search
             // for an available provider that will provide the requested service.
-            if ($this->input->post('provider_id') === ANY_PROVIDER) {
+            if ($this->input->post('provider_id') == 'any-provider') {
                 $_POST['provider_id'] = $this->_search_any_provider($this->input->post('service_id'), $this->input->post('selected_date'));
-                var_dump($_POST['provider_id']);
-                exit;
+
 
                 if ($this->input->post('provider_id') === NULL) {
                     $this->output
@@ -406,6 +405,12 @@ class Appointments extends CI_Controller {
             $appointment['is_unavailable'] = (int) $appointment['is_unavailable']; // needs to be type casted
 
 
+            if ($appointment['id_users_provider'] == 'any-provider') {
+                $appointment['id_users_provider'] = $this->_search_any_provider(
+                        $appointment['id_services'], $this->input->post('selected_date')
+                );
+            }
+
             $appointment['id'] = $this->appointments_model->add($appointment);
 
 
@@ -415,12 +420,13 @@ class Appointments extends CI_Controller {
 
 
 //modificado jose cadenas
-            $appointment['attendance_status'] = !isset($appointment['attendance_status']) ? 'registered' : $appointment['attendance_status'];
-
-
+            $appointment['attendance_status'] = !isset($appointment['attendance_status']) ? 'registrado' : $appointment['attendance_status'];
 
 
             $provider = $this->providers_model->get_row($appointment['id_users_provider']);
+
+
+
             $service = $this->services_model->get_row($appointment['id_services']);
 
             $company_settings = [
@@ -529,69 +535,77 @@ class Appointments extends CI_Controller {
         try {
             $provider_id = $this->input->get('provider_id');
             $service_id = $this->input->get('service_id');
-            $selected_date_string = $this->input->get('selected_date');
-            $selected_date = new DateTime($selected_date_string);
-            $number_of_days_in_month = (int) $selected_date->format('t');
-            $unavailable_dates = [];
+            $selected_date = new DateTime($this->input->get('selected_date'));
+            $number_of_days = (int) $selected_date->format('t');
+            $unavailable_dates = array();
+
+            $provider_ids = array();
 
             // Handle the "Any Provider" case.
             if ($provider_id === ANY_PROVIDER) {
-                $provider_id = $this->_search_any_provider($service_id, $selected_date_string);
+                //$provider_id = $this->_search_any_provider($service_id, $this->input->get('selected_date'));
 
-                if ($provider_id === NULL) {
-                    // No provider is available in the selected date.
-                    for ($i = 1; $i <= $number_of_days_in_month; $i++) {
+                for ($i = 1; $i <= $number_of_days; $i++) {
+                    $current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
+
+                    if ($current_date < new DateTime(date('Y-m-d 00:00:00'))) { // Past dates become immediately unavailable.
+                        continue;
+                    }
+
+                    $provider_id = $this->_search_any_provider($service_id, $current_date->format('Y-m-d'));
+
+                    if (null !== $provider_id && !in_array($provider_id, $provider_ids)) {
+                        $provider_ids[] = $provider_id;
+                    }
+                }
+
+                if (empty($provider_ids)) { // No provider is available in the selected date.
+                    for ($i = 1; $i <= $number_of_days; $i++) {
                         $current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
                         $unavailable_dates[] = $current_date->format('Y-m-d');
                     }
-
-                    $this->output
-                            ->set_content_type('application/json')
-                            ->set_output(json_encode($unavailable_dates));
-
+                    echo json_encode($unavailable_dates);
                     return;
                 }
+            } else {
+                $provider_ids = array($provider_id);
             }
 
-            // Get the provider record.
-            $this->load->model('providers_model');
-            $provider = $this->providers_model->get_row($provider_id);
-
-            // Get the service record.
+            // Get the available time periods for every day of this month.
             $this->load->model('services_model');
-            $service = $this->services_model->get_row($service_id);
+            $service_duration = (int) $this->services_model->get_value('duration', $service_id);
+            $availabilities_type = (int) $this->services_model->get_value('availabilities_type', $service_id);
 
-            for ($i = 1; $i <= $number_of_days_in_month; $i++) {
+            for ($i = 1; $i <= $number_of_days; $i++) {
                 $current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
+                $has_available_hours = false;
 
-                if ($current_date < new DateTime(date('Y-m-d 00:00:00'))) {
-                    // Past dates become immediately unavailable.
+                if ($current_date < new DateTime(date('Y-m-d 00:00:00'))) { // Past dates become immediately unavailable.
                     $unavailable_dates[] = $current_date->format('Y-m-d');
                     continue;
                 }
 
-                $empty_periods = $this->_get_provider_available_time_periods($provider_id, $service_id, $current_date->format('Y-m-d'));
+                foreach ($provider_ids as $provider_id) {
+                    $empty_periods = $this->_get_provider_available_time_periods($provider_id, $service_id, $current_date->format('Y-m-d'));
 
-                $available_hours = $this->_calculate_available_hours($empty_periods, $current_date->format('Y-m-d'), $service['duration'], FALSE, $service['availabilities_type']);
+                    $available_hours = $this->_calculate_available_hours($empty_periods, $current_date->format('Y-m-d'), $service_duration, false, $availabilities_type);
 
-                if ($service['attendants_number'] > 1) {
-                    $available_hours = $this->_get_multiple_attendants_hours($current_date->format('Y-m-d'), $service, $provider);
+                    if (!empty($available_hours)) {
+                        $has_available_hours = true;
+                        break;
+                    }
                 }
 
-                if (empty($available_hours)) {
+                if (!$has_available_hours) {
                     $unavailable_dates[] = $current_date->format('Y-m-d');
                 }
             }
 
-            $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode($unavailable_dates));
+            echo json_encode($unavailable_dates);
         } catch (Exception $exc) {
-            $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode([
-                        'exceptions' => [exceptionToJavaScript($exc)]
-            ]));
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
         }
     }
 
@@ -855,7 +869,6 @@ class Appointments extends CI_Controller {
                     if (count($available_hours) > $max_hours_count) {
 
 
-
                         $provider_id = $provider['id'];
                         $max_hours_count = count($available_hours);
                     }
@@ -897,7 +910,7 @@ class Appointments extends CI_Controller {
             $current_hour = $start_hour;
             $diff = $current_hour->diff($end_hour);
 
-            while (($diff->h * 60 + $diff->i) >= intval($service_duration)) {
+            while (($diff->h * 45 + $diff->i) >= intval($service_duration)) {
                 $available_hours[] = $current_hour->format('H:i a');
                 $current_hour->add(new DateInterval('PT' . $interval . 'M'));
                 $diff = $current_hour->diff($end_hour);
