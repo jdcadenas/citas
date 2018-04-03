@@ -91,7 +91,7 @@ class Appointments extends CI_Controller {
 
                 $results = $this->appointments_model->get_batch(['hash' => $appointment_hash]);
 
-                if (count($results) === 0) {
+                if (count($results) == 0) {
                     // The requested appointment doesn't exist in the database. Display
                     // a message to the customer.
                     $view = [
@@ -199,13 +199,13 @@ class Appointments extends CI_Controller {
                 $send_provider = filter_var($this->providers_model
                                 ->get_setting('notifications', $provider['id']), FILTER_VALIDATE_BOOLEAN);
 
-                if ($send_provider === TRUE) {
+                if ($send_provider == TRUE) {
                     $email->sendDeleteAppointment($appointment, $provider, $service, $customer, $company_settings, new Email($provider['email']), new Text($this->input->post('cancel_reason')));
                 }
 
                 $send_customer = filter_var($this->settings_model->get_setting('customer_notifications'), FILTER_VALIDATE_BOOLEAN);
 
-                if ($send_customer === TRUE) {
+                if ($send_customer == TRUE) {
                     $email->sendDeleteAppointment($appointment, $provider, $service, $customer, $company_settings, new Email($customer['email']), new Text($this->input->post('cancel_reason')));
                 }
             } catch (Exception $exc) {
@@ -307,7 +307,7 @@ class Appointments extends CI_Controller {
                 $_POST['provider_id'] = $this->_search_any_provider($this->input->post('service_id'), $this->input->post('selected_date'));
 
 
-                if ($this->input->post('provider_id') === NULL) {
+                if ($this->input->post('provider_id') == NULL) {
                     $this->output
                             ->set_content_type('application/json')
                             ->set_output(json_encode([]));

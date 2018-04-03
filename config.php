@@ -33,7 +33,7 @@ class Config {
     const BASE_URL = 'http://192.168.2.6/citas';
     //const BASE_URL = 'https://centrocian.000webhostapp.com';
     const LANGUAGE = 'spanish';
-    const DEBUG_MODE = TRUE;
+    const DEBUG_MODE = true;
     // ------------------------------------------------------------------------
     // DATABASE SETTINGS
     // ------------------------------------------------------------------------

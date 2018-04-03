@@ -4,10 +4,39 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 --*/
+@font-face {
+    font-family: 'claire_handregular';
+    src: url('../fontwebfont/clairehandregular-webfont.eot');
+    src: url('../fontwebfont/clairehandregular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fontwebfont/clairehandregular-webfont.woff2') format('woff2'),
+        url('../fontwebfont/clairehandregular-webfont.woff') format('woff'),
+        url('../fontwebfont/clairehandregular-webfont.ttf') format('truetype'),
+        url('../fontwebfont/clairehandregular-webfont.svg#claire_handregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'claire_handbold';
+    src: url('../fontwebfont/clairehandbold-webfont.eot');
+    src: url('../fontwebfont/clairehandbold-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fontwebfont/clairehandbold-webfont.woff2') format('woff2'),
+        url('../fontwebfont/clairehandbold-webfont.woff') format('woff'),
+        url('../fontwebfont/clairehandbold-webfont.ttf') format('truetype'),
+        url('../fontwebfont/clairehandbold-webfont.svg#claire_handbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
 body{
     margin:0;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'claire_handregular', Helvetica, sans-serif;
     background: #ffffd7;
+
 }
 body a{
     transition: 0.5s all;
@@ -19,8 +48,10 @@ body a{
     outline:none;
 }
 h1,h2,h3,h4,h5,h6{
+    padding: 10px;
     margin:0;
-    font-family: 'Limelight';
+    font-family: 'claire_handbold', helvetica, sans-serif ;
+    font-size: 4em;
 }
 p{
     margin:0;
@@ -35,15 +66,18 @@ body a:hover,body a:focus {
 }
 /*-- banner --*/
 .agileits-banner {
-    background:url(../images/1.jpg)no-repeat center 0px;
+    background:url(../images/tablas2.jpg)no-repeat center 0px;
     -webkit-background-size:cover;
     background-size:cover;
     -moz-background-size:cover;
     position: relative;
 }
+.agileits-banner img{
+    margin: 0 auto;
+}
 /*-- header-w3layoutstop--*/
 .header-w3layoutstop {
-    padding: 1em 0;
+    padding: 0.5em 0;
     background: #4790CA;
 }
 .header-w3layoutstop p {
@@ -83,29 +117,29 @@ body a:hover,body a:focus {
 /*-- //banner-top --*/
 /*-- logo --*/
 .w3llogo h1 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'claire_handbold', helvetica;
     font-size: 2.2em;
     font-weight: 100;
     letter-spacing: 2px;
 }
 .w3llogo h1 a {
     display: inline-block;
-    color: #02e2ff;
-    border: 1px solid;
+
+    border: 1px solid transparent;
     border-width: 5px 5px 1px 5px;
     padding: 5px 10px;
 }
 /*-- //logo --*/
 /*-- top-nav --*/
 .w3menu.navbar-left {
-    margin-left: 12em;
+    margin-left: 7em;
 }
 .top-nav {
     z-index: 999;
-    padding: 2em 0 0;
+    padding: 0.5em 0 0;
 }
 nav.navbar.navbar-default {
-    background-color: inherit;
+    background-color: #666666;
     border: none;
     margin: 0;
 }
@@ -122,8 +156,8 @@ ul.nav.navbar {
 .top-nav ul li a {
     text-decoration: none;
     letter-spacing: 2px;
-    font-size: 1.1em;
-    color: #fff;
+    font-size: 1.3em;
+    color: #333333;
     position: relative;
     font-weight: 300;
     padding: 0;
@@ -257,14 +291,14 @@ ul.nav.navbar {
     padding: 3em 0;
 }
 h3.w3ls-title {
-    font-size: 4em;
-    margin-bottom: .8em;
+    font-size: 6em;
+    margin-bottom: .6em;
     text-align: center;
-    color: #aba8a8;
+    color: #666666;
 }
 p {
-    font-size: 1em;
-    color: #777;
+    font-size: 1.2em;
+    color: #666666;
     line-height: 2em;
 }
 .about-agileinfo p {
@@ -657,7 +691,7 @@ img.img-responsive {
     font-size: 4em;
 }
 .agileits-banner.about-w3lsbnr .banner-w3text {
-    padding: 4em 0;
+    padding: 2em 0;
 }
 .features.about {
     -webkit-box-shadow: -3px 0px 5px rgb(5, 192, 216);
@@ -2076,7 +2110,7 @@ h2.typoh2{
         padding-left: 1em;
     }
     .w3llogo h1 {
-        font-size: 2em;
+        font-size: 1.8em;
     }
     ul.nav.navbar {
         margin: 0.8em 0 0;

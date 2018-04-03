@@ -1,29 +1,15 @@
-<div class="banner-w3text w3layouts">
-    <div class="container">
-        <div class="page-header">
-            <h2 >Centro Integral de Ayuda al Niño</h2>
-        </div>
-        <div class="">
-            <a class="btn btn-primary btn-lg btn-primary-outline " href="<?= site_url('appointments'); ?>">
-                <i class="fa fa-book" aria-hidden="true">
 
-                </i><span >Hacer cita</span>
-            </a>
-        </div>
-    </div>
-</div>
-</div>
-</div>
+
 <!-- //banner -->
 <!-- about -->
 <div class="about">
     <div class="container">
         <div class="about-agileinfo">
-            <h3 class="w3ls-title">centrointegral_cian</h3>
-            <p>Cian es un centro especializado que concibe al niño/a como un ser potencial, nuestro objetivo es favorecer los aspectos cognitivos, psicomotor, social, afectivo y académico para el desarrollo armónico de su personalidad.
+            <h3 class="w3ls-title">cian</h3>
+            <p class="lead">Cian es un centro especializado que concibe al niño/a como un ser potencial, nuestro objetivo es favorecer los aspectos cognitivos, psicomotor, social, afectivo y académico para el desarrollo armónico de su personalidad.
                 Nuestro centro realiza labores de diagnóstico, evaluación, orientación e intervención de las debilidades existentes.
                 Soñamos con una sociedad donde los niños - niñas y adolescentes crezcan en un ambiente de inclusión, respeto, amor y cuidados ampliando sus posibilidades y formándolos para el mañana.
-                Un diagnóstico no te define, nos orienta! C I </p>
+                Un diagnóstico no te define, nos orienta!</p>
         </div>
     </div>
 </div>
@@ -35,10 +21,13 @@
     </div>
     <div class="col-md-4 col-sm-4 w3welcome-right">
         <div class="w3welcome-text">
-            <h5 class="w3l-subtitle">- Nuestra Misión</h5>
-            <p>Soñamos con una sociedad donde los niños - niñas y adolescentes crezcan en un ambiente de inclusión, respeto, amor y cuidados ampliando sus posibilidades y formándolos para el mañana.</p>
+            <h5 class="w3l-subtitle">- BabyGym -</h5>
+            <p>BabyGym es un espacio comodo, funcional y flexible
+                donde trabajamos con el nino su motricidad gruesa, fisioterapia, terapia ocupacional,
+                estimulación temprana, Babyyoga, en fin cualquier actividad ajustada a la necesidad evolutiva e interes de cada nino</p>
         </div>
-        <img src="<?= base_url('plantilla/images/s2.jpg') ?>" class="img-responsive" alt=""/>
+        <img src="<?= base_url('plantilla/images/babygym.jpeg') ?>" class="img-responsive" alt=""/>
+
     </div>
     <div class="clearfix"> </div>
 </div>
@@ -50,26 +39,53 @@
         <div class="services-agileinfo">
             <div class="col-md-3 col-sm-3 col-xs-6 services-w3lsgrids">
                 <div class="services-w3text">
-                    <i class="fa fa-cutlery" aria-hidden="true"></i>
+                    <i class="fa fa-cloud" aria-hidden="true"></i>
                     <h5>Psicología</h5>
                 </div>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-6 services-w3lsgrids">
-                <div class="services-w3text srvs-w3text2">
-                    <i class="fa fa-map" aria-hidden="true"></i>
+                <div class="services-w3text ">
+                    <i class="fa fa-cloud" aria-hidden="true"></i>
                     <h5>Psicopedagogía</h5>
                 </div>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-6 services-w3lsgrids">
                 <div class="services-w3text srvs-w3text3">
-                    <i class="fa fa-credit-card" aria-hidden="true"></i>
+                    <i class="fa fa-cloud " aria-hidden="true"></i>
                     <h5>Terapia Ocupacional</h5>
                 </div>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-6 services-w3lsgrids">
                 <div class="services-w3text srvs-w3text4">
-                    <i class="fa fa-truck" aria-hidden="true"></i>
+                    <i class="fa fa-cloud " aria-hidden="true"></i>
                     <h5>Terapia de Lenguage</h5>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <div class="services-agileinfo">
+            <div class="col-md-3 col-sm-3 col-xs-6 services-w3lsgrids">
+                <div class="services-w3text">
+                    <i class="fa fa-cloud " aria-hidden="true"></i>
+                    <h5>Fisioterapia</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-6 services-w3lsgrids">
+                <div class="services-w3text srvs-w3text2">
+                    <i class="fa fa-cloud " aria-hidden="true"></i>
+                    <h5>Psicoterapia Parental</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-6 services-w3lsgrids">
+                <div class="services-w3text srvs-w3text3">
+                    <i class="fa fa-cloud " aria-hidden="true"></i>
+                    <h5>Tareas dirigidas</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-6 services-w3lsgrids">
+                <div class="services-w3text srvs-w3text4">
+                    <i class="fa fa-cloud" aria-hidden="true"></i>
+                    <h5>Ludoterapia</h5>
                 </div>
             </div>
             <div class="clearfix"> </div>
@@ -77,7 +93,7 @@
     </div>
 </div>
 <!-- //services -->
-<!-- news -->
+<!-- news
 <div class="services news">
     <div class="container">
         <h3 class="w3ls-title">Noticias y eventos</h3>
@@ -126,3 +142,4 @@
     </div>
 </div>
 <!-- //news -->
+-->

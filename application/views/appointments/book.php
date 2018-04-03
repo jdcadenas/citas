@@ -144,7 +144,7 @@
                                     </select>
                                 </div>
 
-                                <div class="form-group hidden">
+                                <div class="form-group ">
                                     <label for="select-provider">
                                         <strong><?= lang('select_provider') ?></strong>
                                     </label>

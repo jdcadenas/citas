@@ -43,7 +43,7 @@ window.FrontendBook = window.FrontendBook || {};
         bindEventHandlers = bindEventHandlers || true;
         manageMode = manageMode || false;
 
-        if (window.console === undefined) {
+        if (window.console == undefined) {
             window.console = function() {}; // IE compatibility
         }
 
@@ -122,12 +122,12 @@ window.FrontendBook = window.FrontendBook || {};
             // Check if a specific provider was selected.
             var selectedProviderId = GeneralFunctions.getUrlParameter(location.href, 'provider');
 
-            if (selectedProviderId && $selectProvider.find('option[value="' + selectedProviderId + '"]').length === 0) {
+            if (selectedProviderId && $selectProvider.find('option[value="' + selectedProviderId + '"]').length == 0) {
                 // Select a service of this provider in order to make the provider available in the select box.
                 for (var index in GlobalVariables.availableProviders) {
                     var provider = GlobalVariables.availableProviders[index];
 
-                    if (provider.id === selectedProviderId && provider.services.length > 0) {
+                    if (provider.id == selectedProviderId && provider.services.length > 0) {
                         $selectService
                                 .val(provider.services[0])
                                 .trigger('change');
@@ -185,7 +185,7 @@ window.FrontendBook = window.FrontendBook || {};
             // Add the "Any Provider" entry.
             if ($('#select-provider option').length >= 1) {
                 $('#select-provider').append(new Option('- ' + EALang.any_provider + ' -', 'any-provider'));
-                $("#select-provider option:contains('any-provider')").attr('selected', 'selected');
+                $("#select-provider option:contains('any-provider')").prop('selected', 'selected');
             }
 
             FrontendBookApi.getUnavailableDates($('#select-provider').val(), $(this).val(),
@@ -223,7 +223,7 @@ window.FrontendBook = window.FrontendBook || {};
 
             // If we are on the 3rd tab then we will need to validate the user's
             // input before proceeding to the next step.
-            if ($(this).attr('data-step_index') === '3') {
+            if ($(this).attr('data-step_index') == '3') {
                 if (!_validateCustomerForm()) {
                     return; // Validation failed, do not continue.
                 } else {
@@ -284,7 +284,7 @@ window.FrontendBook = window.FrontendBook || {};
                     {
                         text: 'OK',
                         click: function() {
-                            if ($('#cancel-reason').val() === '') {
+                            if ($('#cancel-reason').val() == '') {
                                 $('#cancel-reason').css('border', '2px solid red');
                                 return;
                             }
@@ -380,7 +380,7 @@ window.FrontendBook = window.FrontendBook || {};
      * customer settings and input for the appointment booking.
      */
     exports.updateConfirmFrame = function() {
-        if ($('.selected-hour').text() === '') {
+        if ($('.selected-hour').text() == '') {
             return;
         }
 

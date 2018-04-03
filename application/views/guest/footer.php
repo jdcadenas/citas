@@ -7,8 +7,8 @@
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
                 <div class="col-xs-9 features-w3lright">
-                    <h4>CONTACTO</h4>
-                    <p>+01 111 222 3333</p>
+                    <h4>CONTACTOS</h4>
+                    <p> 0414-3816504 / 0412-2452027 </p>
                 </div>
                 <div class="clearfix"> </div>
             </div>
@@ -30,6 +30,11 @@
                     <h4>Correo</h4>
                     <p><a href="mailto:ciancentrointegral@gmail.com">ciancentrointegral@gmail.com</a></p>
                 </div>
+
+
+
+
+
                 <div class="clearfix"> </div>
             </div>
             <div class="clearfix"> </div>
@@ -41,10 +46,11 @@
 <div class="footer w3layouts">
     <div class="container">
         <div class="footer-agileinfo">
-            <div class="col-md-3 col-sm-6 footer-grid">
-                <h3>Useful Info</h3>
-                <p>Lorem Ipsum was popularised In sit amet sapien eros Integer dolore magna aliqua Temporibus autem quibusdam et aut officiis debitis aut rerum necess itatibus saepe.</p>
+            <div class="col-md-12 col-sm-12 footer-grid">
+                <h3>CIAN Centro Integral de atención al niño.</h3>
+
             </div>
+            <!--
             <div class="col-md-3 col-sm-6 footer-grid footer-tags">
                 <h3>Navigation</h3>
                 <ul>
@@ -72,6 +78,7 @@
                     <li><a href="#"><i class="fa fa-dribbble"></i>Dribbble</a></li>
                 </ul>
             </div>
+            -->
             <div class="clearfix"> </div>
         </div>
     </div>
@@ -129,5 +136,6 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="<?= base_url('plantilla/js/bootstrap.js') ?>"></script>
+
 </body>
 </html>

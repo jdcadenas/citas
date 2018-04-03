@@ -16,6 +16,8 @@
         float: left;
     }
 }
+
+
 @font-face{
     font-family: Roboto;
     src: url(../ext/font-roboto/Roboto-Regular.ttf);
@@ -32,8 +34,8 @@ body .custom-qtip {
 }
 
 body .ui-widget {
-    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 1.1em;
+    font-family: 'Claire Hand', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 1.5em;
 }
 
 body .ui-widget-overlay {
