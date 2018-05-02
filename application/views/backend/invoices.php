@@ -36,8 +36,7 @@
 
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#providers" aria-controls="providers" role="tab" data-toggle="tab"><?= lang('providers') ?></a></li>
-        <li role="presentation"><a href="#secretaries" aria-controls="secretaries" role="tab" data-toggle="tab"><?= lang('secretaries') ?></a></li>
-        <li role="presentation"><a href="#admins" aria-controls="admins" role="tab" data-toggle="tab"><?= lang('admins') ?></a></li>
+
     </ul>
 
     <div class="tab-content">
@@ -207,21 +206,44 @@
                     </div>
 
                     <div class="working-plan-view provider-view" style="display: none;">
-                        <h3><?= lang('working_plan') ?></h3>
-
+                        <h3><?= lang('invoice') ?></h3>
+                        <!-- /* ["id_factura"]=>
+                          string(1) "1"
+                          ["idcitas"]=>
+                          string(2) "58"
+                          ["cantidad"]=>
+                          string(1) "1"
+                          ["precio"]=>
+                          string(6) "400.00"
+                          ["id_facturaNo"]=>
+                          string(9) "000000001"
+                          ["razon_social"]=>
+                          string(14) "mi empresa .ca"
+                          ["tipo_documento"]=>
+                          string(7) "factura"
+                          ["monto"]=>
+                          string(6) "400.00"
+                          ["fecha_emision"]=>
+                          string(19) "0000-00-00 00:00:00"
+                          ["fecha_cancelacion"]=>
+                          string(19) "0000-00-00 00:00:00"
+                          ["tipo_pago"]=>
+                          string(8) "efectivo"
+                          ["estado"]=>
+                          string(1) "1"*/ -->
                         <table class="working-plan table table-striped">
                             <thead>
                                 <tr>
-                                    <th><?= lang('day') ?></th>
-                                    <th><?= lang('start') ?></th>
-                                    <th><?= lang('end') ?></th>
+                                    <th><?= "No. Factura" ?></th>
+                                    <th><?= "monto" ?></th>
+                                    <th><?= "Fecha cancelacion" ?></th>
                                 </tr>
                             </thead>
                             <tbody>
 
                                 <tr>
                                     <td>
-                                        <div class="checkbox">
+                                        <div class="">
                                             <label>
                                                 <input type="checkbox" id="monday">
                                                 <?= lang('monday') ?>

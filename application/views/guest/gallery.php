@@ -23,6 +23,7 @@
                 </div>
                 <div class="clearfix"> </div>
 
+
                 <div class="col-md-4 col-sm-4 col-xs-6 gallery-grid-img">
                     <a class="example-image-link w3-agilepic" href="<?= base_url('plantilla/images/nino1.jpg') ?>" data-lightbox="example-set" data-title="">
                         <img class="example-image img-responsive" src="<?= base_url('plantilla/images/nino1.jpg') ?>" alt=""/>

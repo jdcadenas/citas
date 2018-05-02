@@ -48,6 +48,7 @@ $lang['customer'] = 'Paciente';
 $lang['attendance_status'] = 'Estado';
 $lang['attendance_status_registered'] = 'Registrado';
 $lang['attendance_status_checked_in'] = 'Chequeado ✓';
+$lang['attendance_status_complet'] = 'Completado';
 $lang['attendance_action_check_in'] = 'Chequear';
 $lang['attendance_action_undo_check_in'] = 'Deshacer Chequeo';
 $lang['start'] = 'Inicio';
@@ -295,3 +296,5 @@ $lang['no_repeat'] = 'No Repeatir';
 $lang['weekly'] = 'Semanalmente';
 $lang['weekly2'] = 'Dos Semanas';
 $lang['monthly'] = 'Mensualmente';
+
+$lang['invoice'] = 'Factura';

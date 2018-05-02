@@ -25,7 +25,7 @@ class Home extends CI_Controller {
      */
     public function __construct() {
         parent::__construct();
-        $this->load->helper('url');
+        $this->load->helper(array('url', 'form'));
         $this->load->library('session');
     }
 
@@ -50,6 +50,9 @@ class Home extends CI_Controller {
     public function contact() {
         $this->load->model('settings_model');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
+
+
+
         $this->load->view('guest/header', $view);
         $this->load->view('guest/nav');
         $this->load->view('guest/contact');
@@ -90,6 +93,42 @@ class Home extends CI_Controller {
         $this->load->view('guest/nav');
         $this->load->view('guest/codes');
         $this->load->view('guest/footer');
+    }
+
+    public function postEmail() {
+
+        $data = $this->input->post();
+        //print_r($data);
+        try {
+
+            $this->load->model('settings_model');
+
+            // :: SEND NOTIFICATION EMAILS
+            try {
+                $this->config->load('email');
+                $email = new \EA\Engine\Notifications\Email($this, $this->config->config);
+
+
+                $email->sendContact($data);
+            } catch (Exception $exc) {
+                $exceptions[] = $exc;
+            }
+        } catch (Exception $exc) {
+            // Display the error message to the customer.
+            $exceptions[] = $exc;
+        }
+
+        $view = [
+            'message_title' => 'Mensaje de Contacto',
+            'message_text' => 'Contacto',
+            'message_icon' => base_url('assets/img/success.png')
+        ];
+
+        if (isset($exceptions)) {
+            $view['exceptions'] = $exceptions;
+        }
+
+        $this->load->view('guest/messageContact', $view);
     }
 
 }

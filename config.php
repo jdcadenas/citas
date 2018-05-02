@@ -30,25 +30,30 @@ class Config {
     // ------------------------------------------------------------------------
     // GENERAL SETTINGS
     // ------------------------------------------------------------------------
-    const BASE_URL = 'http://192.168.2.6/citas';
+    //const BASE_URL = 'http://centrocian.byethost.com'; // original
+    const BASE_URL = 'http://192.168.2.10/citas';
+    //
     //const BASE_URL = 'https://centrocian.000webhostapp.com';
     const LANGUAGE = 'spanish';
-    const DEBUG_MODE = true;
+    const DEBUG_MODE = false;
     // ------------------------------------------------------------------------
     // DATABASE SETTINGS
     // ------------------------------------------------------------------------
-
-    const DB_HOST = 'localhost';
+    const DB_HOST = 'localhost'; // original
+    //const DB_HOST = 'sql104.byethost.com'; //agregado
     //const DB_NAME = 'id775760_cian';
-    const DB_NAME = 'citas';
-    const DB_USERNAME = 'root';
+    const DB_NAME = 'citas'; // original
+    //const DB_NAME = 'b32_21881771_cian'; ///agregado
+    const DB_USERNAME = 'root'; //original
+    //const DB_USERNAME = 'b32_21881771'; //agregado'
     //const DB_USERNAME = 'id775760_centrocian';
     //const DB_PASSWORD = 'carito1965';
+    //const DB_PASSWORD = '9876jD$$'; //original en blanco
     const DB_PASSWORD = '';
+    //
     // ------------------------------------------------------------------------
     // GOOGLE CALENDAR SYNC
     // ------------------------------------------------------------------------
-
     const GOOGLE_SYNC_FEATURE = FALSE; // Enter TRUE or FALSE
     const GOOGLE_PRODUCT_NAME = '';
     const GOOGLE_CLIENT_ID = '';

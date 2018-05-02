@@ -26,6 +26,7 @@ use \EA\Engine\Types\Email as EmailAddress;
  * Important: The email configuration settings are located at: /application/config/email.php
  */
 class Email {
+
     /**
      * Framework Instance
      *
@@ -46,8 +47,7 @@ class Email {
      * @param \CI_Controller $framework
      * @param array $config Contains the email configuration to be used.
      */
-    public function __construct(\CI_Controller $framework, array $config)
-    {
+    public function __construct(\CI_Controller $framework, array $config) {
         $this->framework = $framework;
         $this->config = $config;
     }
@@ -63,10 +63,8 @@ class Email {
      *
      * @return string Returns the new email html that contain the variables of the $replaceArray.
      */
-    protected function _replaceTemplateVariables(array $replaceArray, $templateHtml)
-    {
-        foreach ($replaceArray as $name => $value)
-        {
+    protected function _replaceTemplateVariables(array $replaceArray, $templateHtml) {
+        foreach ($replaceArray as $name => $value) {
             $templateHtml = str_replace($name, $value, $templateHtml);
         }
 
@@ -93,19 +91,9 @@ class Email {
      * @param \EA\Engine\Types\Text $icsStream Stream contents of the ICS file.
      */
     public function sendAppointmentDetails(
-        array $appointment,
-        array $provider,
-        array $service,
-        array $customer,
-        array $company,
-        Text $title,
-        Text $message,
-        Url $appointmentLink,
-        EmailAddress $recipientEmail,
-        Text $icsStream
+    array $appointment, array $provider, array $service, array $customer, array $company, Text $title, Text $message, Url $appointmentLink, EmailAddress $recipientEmail, Text $icsStream
     ) {
-        switch ($company['date_format'])
-        {
+        switch ($company['date_format']) {
             case 'DMY':
                 $date_format = 'd/m/Y';
                 break;
@@ -135,7 +123,6 @@ class Email {
             '$customer_email' => $customer['email'],
             '$customer_phone' => $customer['phone_number'],
             '$customer_address' => $customer['address'],
-
             // Translations
             'Appointment Details' => $this->framework->lang->line('appointment_details_title'),
             'Service' => $this->framework->lang->line('service'),
@@ -164,10 +151,9 @@ class Email {
 
         $mailer->addStringAttachment($icsStream->get(), 'invitation.ics');
 
-        if ( ! $mailer->Send())
-        {
+        if (!$mailer->Send()) {
             throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): '
-                . $mailer->ErrorInfo);
+            . $mailer->ErrorInfo);
         }
     }
 
@@ -190,16 +176,9 @@ class Email {
      * @param \EA\Engine\Types\Text $reason The reason why the appointment is deleted.
      */
     public function sendDeleteAppointment(
-        array $appointment,
-        array $provider,
-        array $service,
-        array $customer,
-        array $company,
-        EmailAddress $recipientEmail,
-        Text $reason
+    array $appointment, array $provider, array $service, array $customer, array $company, EmailAddress $recipientEmail, Text $reason
     ) {
-        switch ($company['date_format'])
-        {
+        switch ($company['date_format']) {
             case 'DMY':
                 $date_format = 'd/m/Y';
                 break;
@@ -213,7 +192,7 @@ class Email {
                 throw new \Exception('Invalid date_format value: ' . $company['date_format']);
         }
 
-        // Prepare email template data. 
+        // Prepare email template data.
         $replaceArray = [
             '$email_title' => $this->framework->lang->line('appointment_cancelled_title'),
             '$email_message' => $this->framework->lang->line('appointment_removed_from_schedule'),
@@ -228,7 +207,6 @@ class Email {
             '$customer_phone' => $customer['phone_number'],
             '$customer_address' => $customer['address'],
             '$reason' => $reason->get(),
-
             // Translations
             'Appointment Details' => $this->framework->lang->line('appointment_details_title'),
             'Service' => $this->framework->lang->line('service'),
@@ -255,10 +233,9 @@ class Email {
         $mailer->Subject = $this->framework->lang->line('appointment_cancelled_title');
         $mailer->Body = $html;
 
-        if ( ! $mailer->Send())
-        {
+        if (!$mailer->Send()) {
             throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): '
-                . $mailer->ErrorInfo);
+            . $mailer->ErrorInfo);
         }
     }
 
@@ -269,8 +246,7 @@ class Email {
      * @param \EA\Engine\Types\Email $recipientEmail The receiver's email address.
      * @param array $company The company settings to be included in the email.
      */
-    public function sendPassword(NonEmptyText $password, EmailAddress $recipientEmail, array $company)
-    {
+    public function sendPassword(NonEmptyText $password, EmailAddress $recipientEmail, array $company) {
         $replaceArray = [
             '$email_title' => $this->framework->lang->line('new_account_password'),
             '$email_message' => $this->framework->lang->line('new_password_is'),
@@ -291,10 +267,28 @@ class Email {
         $mailer->Subject = $this->framework->lang->line('new_account_password');
         $mailer->Body = $html;
 
-        if ( ! $mailer->Send())
-        {
+        if (!$mailer->Send()) {
             throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): '
-                . $mailer->ErrorInfo);
+            . $mailer->ErrorInfo);
+        }
+    }
+
+    public function sendContact($data) {
+
+
+
+
+        $mailer = $this->_createMailer();
+
+        $mailer->From = $data['Email'];
+        $mailer->FromName = $data['Name'];
+        $mailer->AddAddress('jdcadenas@gmail.com'); // "Name" argument crushes the phpmailer class.
+        $mailer->Subject = $data['Subject'];
+        $mailer->Body = $data['Message'];
+
+        if (!$mailer->Send()) {
+            throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): '
+            . $mailer->ErrorInfo);
         }
     }
 
@@ -303,12 +297,10 @@ class Email {
      *
      * @return \PHPMailer
      */
-    protected function _createMailer()
-    {
+    protected function _createMailer() {
         $mailer = new \PHPMailer;
 
-        if ($this->config['protocol'] === 'smtp')
-        {
+        if ($this->config['protocol'] === 'smtp') {
             $mailer->isSMTP();
             $mailer->Host = $this->config['smtp_host'];
             $mailer->SMTPAuth = TRUE;
@@ -323,4 +315,5 @@ class Email {
 
         return $mailer;
     }
+
 }
