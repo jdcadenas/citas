@@ -71,6 +71,7 @@ class Appointments extends CI_Controller {
             $available_providers = $this->providers_model->get_available_providers();
             $company_name = $this->settings_model->get_setting('company_name');
             $date_format = $this->settings_model->get_setting('date_format');
+            $time_format = $this->settings_model->get_setting('time_format');
 
             // Remove the data that are not needed inside the $available_providers array.
             foreach ($available_providers as $index => $provider) {
@@ -91,7 +92,7 @@ class Appointments extends CI_Controller {
 
                 $results = $this->appointments_model->get_batch(['hash' => $appointment_hash]);
 
-                if (count($results) == 0) {
+                if (count($results) === 0) {
                     // The requested appointment doesn't exist in the database. Display
                     // a message to the customer.
                     $view = [
@@ -122,6 +123,7 @@ class Appointments extends CI_Controller {
                 'company_name' => $company_name,
                 'manage_mode' => $manage_mode,
                 'date_format' => $date_format,
+                'time_format' => $time_format,
                 'appointment_data' => $appointment,
                 'provider_data' => $provider,
                 'customer_data' => $customer
@@ -165,7 +167,8 @@ class Appointments extends CI_Controller {
                 'company_name' => $this->settings_model->get_setting('company_name'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
                 'company_link' => $this->settings_model->get_setting('company_link'),
-                'date_format' => $this->settings_model->get_setting('date_format')
+                'date_format' => $this->settings_model->get_setting('date_format'),
+                'time_format' => $this->settings_model->get_setting('time_format')
             ];
 
             // :: DELETE APPOINTMENT RECORD FROM THE DATABASE.
@@ -177,11 +180,11 @@ class Appointments extends CI_Controller {
             if ($appointment['id_google_calendar'] != NULL) {
                 try {
                     $google_sync = filter_var($this->providers_model
-                                    ->get_setting('google_sync', $appointment['id_users_provider']), FILTER_VALIDATE_BOOLEAN);
+                            ->get_setting('google_sync', $appointment['id_users_provider']), FILTER_VALIDATE_BOOLEAN);
 
                     if ($google_sync == TRUE) {
                         $google_token = json_decode($this->providers_model
-                                        ->get_setting('google_token', $provider['id']));
+                                ->get_setting('google_token', $provider['id']));
                         $this->load->library('Google_sync');
                         $this->google_sync->refresh_token($google_token->refresh_token);
                         $this->google_sync->delete_appointment($provider, $appointment['id_google_calendar']);
@@ -197,15 +200,15 @@ class Appointments extends CI_Controller {
                 $email = new \EA\Engine\Notifications\Email($this, $this->config->config);
 
                 $send_provider = filter_var($this->providers_model
-                                ->get_setting('notifications', $provider['id']), FILTER_VALIDATE_BOOLEAN);
+                        ->get_setting('notifications', $provider['id']), FILTER_VALIDATE_BOOLEAN);
 
-                if ($send_provider == TRUE) {
+                if ($send_provider === TRUE) {
                     $email->sendDeleteAppointment($appointment, $provider, $service, $customer, $company_settings, new Email($provider['email']), new Text($this->input->post('cancel_reason')));
                 }
 
                 $send_customer = filter_var($this->settings_model->get_setting('customer_notifications'), FILTER_VALIDATE_BOOLEAN);
 
-                if ($send_customer == TRUE) {
+                if ($send_customer === TRUE) {
                     $email->sendDeleteAppointment($appointment, $provider, $service, $customer, $company_settings, new Email($customer['email']), new Text($this->input->post('cancel_reason')));
                 }
             } catch (Exception $exc) {
@@ -290,10 +293,12 @@ class Appointments extends CI_Controller {
 
         try {
             // Do not continue if there was no provider selected (more likely there is no provider in the system).
-            if (empty($this->input->post('provider_id'))) {
+
+            $idp = $this->input->post('provider_id');
+            if (empty($idp)) {
                 $this->output
-                        ->set_content_type('application/json')
-                        ->set_output(json_encode([]));
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode([]));
                 return;
             }
 
@@ -303,14 +308,12 @@ class Appointments extends CI_Controller {
 
             // If the user has selected the "any-provider" option then we will need to search
             // for an available provider that will provide the requested service.
-            if ($this->input->post('provider_id') == 'any-provider') {
+            if ($this->input->post('provider_id') === ANY_PROVIDER) {
                 $_POST['provider_id'] = $this->_search_any_provider($this->input->post('service_id'), $this->input->post('selected_date'));
-
-
-                if ($this->input->post('provider_id') == NULL) {
+                if ($this->input->post('provider_id') === NULL) {
                     $this->output
-                            ->set_content_type('application/json')
-                            ->set_output(json_encode([]));
+                        ->set_content_type('application/json')
+                        ->set_output(json_encode([]));
                     return;
                 }
             }
@@ -342,18 +345,18 @@ class Appointments extends CI_Controller {
                 }
             }
 
-            // $available_hours = array_values($available_hours);
-            //sort($available_hours, SORT_STRING);
-            // $available_hours = array_values($available_hours);
+            $available_hours = array_values($available_hours);
+            sort($available_hours, SORT_STRING);
+            $available_hours = array_values($available_hours);
 
             $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode($available_hours));
+                ->set_content_type('application/json')
+                ->set_output(json_encode($available_hours));
         } catch (Exception $exc) {
             $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode([
-                        'exceptions' => [exceptionToJavaScript($exc)]
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'exceptions' => [exceptionToJavaScript($exc)]
             ]));
         }
     }
@@ -377,10 +380,9 @@ class Appointments extends CI_Controller {
             // Validate the CAPTCHA string.
             if ($this->settings_model->get_setting('require_captcha') === '1' && $this->session->userdata('captcha_phrase') !== $this->input->post('captcha')) {
                 $this->output
-                        ->set_content_type('application/json')
-                        ->set_output(json_encode([
-                            'captcha_verification' => FALSE,
-                            'expected_phrase' => $this->session->userdata('captcha_phrase')
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode([
+                        'captcha_verification' => FALSE
                 ]));
                 return;
             }
@@ -390,8 +392,8 @@ class Appointments extends CI_Controller {
                 throw new Exception($this->lang->line('requested_hour_is_unavailable'));
             }
 
-            $appointment = $this->input->post('post_data')['appointment'];
-            $customer = $this->input->post('post_data')['customer'];
+            $appointment = $_POST['post_data']['appointment'];
+            $customer = $_POST['post_data']['customer'];
 
             if ($this->customers_model->exists($customer)) {
                 $customer['id'] = $this->customers_model->find_record_id($customer);
@@ -399,41 +401,33 @@ class Appointments extends CI_Controller {
 
             $customer_id = $this->customers_model->add($customer);
             $appointment['id_users_customer'] = $customer_id;
-
-
-
             $appointment['is_unavailable'] = (int) $appointment['is_unavailable']; // needs to be type casted
 
 
-            if ($appointment['id_users_provider'] == 'any-provider') {
-                $appointment['id_users_provider'] = $this->_search_any_provider(
-                        $appointment['id_services'], $this->input->post('selected_date')
-                );
-            }
-
+            /*        if ($appointment['id_users_provider'] == 'any-provider') {
+              $appointment['id_users_provider'] = $this->_search_any_provider(
+              $appointment['id_services'], $this->input->post('selected_date')
+              );
+              }
+             */
             $appointment['id'] = $this->appointments_model->add($appointment);
-
-
-
             $appointment['hash'] = $this->appointments_model->get_value('hash', $appointment['id']);
 
 
 
 //modificado jose cadenas
-            $appointment['attendance_status'] = !isset($appointment['attendance_status']) ? 'registrado' : $appointment['attendance_status'];
+            //           $appointment['attendance_status'] = !isset($appointment['attendance_status']) ? 'registrado' : $appointment['attendance_status'];
 
 
             $provider = $this->providers_model->get_row($appointment['id_users_provider']);
-
-
-
             $service = $this->services_model->get_row($appointment['id_services']);
 
             $company_settings = [
                 'company_name' => $this->settings_model->get_setting('company_name'),
                 'company_link' => $this->settings_model->get_setting('company_link'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
-                'date_format' => $this->settings_model->get_setting('date_format')
+                'date_format' => $this->settings_model->get_setting('date_format'),
+                'time_format' => $this->settings_model->get_setting('time_format')
             ];
 
             // :: SYNCHRONIZE APPOINTMENT WITH PROVIDER'S GOOGLE CALENDAR
@@ -444,7 +438,7 @@ class Appointments extends CI_Controller {
 
                 if ($google_sync == TRUE) {
                     $google_token = json_decode($this->providers_model
-                                    ->get_setting('google_token', $appointment['id_users_provider']));
+                            ->get_setting('google_token', $appointment['id_users_provider']));
 
                     $this->load->library('google_sync');
                     $this->google_sync->refresh_token($google_token->refresh_token);
@@ -457,7 +451,7 @@ class Appointments extends CI_Controller {
                     } else {
                         // Update appointment to Google Calendar.
                         $appointment['id_google_calendar'] = $this->appointments_model
-                                ->get_value('id_google_calendar', $appointment['id']);
+                            ->get_value('id_google_calendar', $appointment['id']);
 
                         $this->google_sync->update_appointment($appointment, $provider, $service, $customer, $company_settings);
                     }
@@ -507,15 +501,15 @@ class Appointments extends CI_Controller {
             }
 
             $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode([
-                        'appointment_id' => $appointment['id']
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'appointment_id' => $appointment['id']
             ]));
         } catch (Exception $exc) {
             $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode([
-                        'exceptions' => [exceptionToJavaScript($exc)]
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'exceptions' => [exceptionToJavaScript($exc)]
             ]));
         }
     }
@@ -535,77 +529,87 @@ class Appointments extends CI_Controller {
         try {
             $provider_id = $this->input->get('provider_id');
             $service_id = $this->input->get('service_id');
-            $selected_date = new DateTime($this->input->get('selected_date'));
-            $number_of_days = (int) $selected_date->format('t');
-            $unavailable_dates = array();
+            $selected_date_string = $this->input->get('selected_date');
+            $selected_date = new DateTime($selected_date_string);
+            $number_of_days_in_month = (int) $selected_date->format('t');
+            $unavailable_dates = [];
+            $manage_mode = filter_var($this->input->get('manage_mode'), FILTER_VALIDATE_BOOLEAN);
 
-            $provider_ids = array();
+            $exclude_appointments = ($_REQUEST['manage_mode'] == 'true') ? [$_REQUEST['appointment_id']] : [];
 
             // Handle the "Any Provider" case.
             if ($provider_id === ANY_PROVIDER) {
-                //$provider_id = $this->_search_any_provider($service_id, $this->input->get('selected_date'));
+                $provider_id = $this->_search_any_provider($service_id, $selected_date_string);
 
-                for ($i = 1; $i <= $number_of_days; $i++) {
-                    $current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
+                if ($provider_id === null) {
+                    $current_date = new DateTime($selected_date_string);
+                    $current_date->add(new DateInterval('P1D'));
 
-                    if ($current_date < new DateTime(date('Y-m-d 00:00:00'))) { // Past dates become immediately unavailable.
-                        continue;
-                    }
+                    do {
+                        $provider_id = $this->_search_any_provider($service_id, $current_date->format('Y-m-d H:i:s'));
 
-                    $provider_id = $this->_search_any_provider($service_id, $current_date->format('Y-m-d'));
+                        if ($provider_id) {
+                            break;
+                        }
 
-                    if (null !== $provider_id && !in_array($provider_id, $provider_ids)) {
-                        $provider_ids[] = $provider_id;
-                    }
+                        $current_date->add(new DateInterval('P1D'));
+                    } while ((int) $current_date->format('d') <= $number_of_days_in_month);
                 }
 
-                if (empty($provider_ids)) { // No provider is available in the selected date.
-                    for ($i = 1; $i <= $number_of_days; $i++) {
+                if ($provider_id === NULL) {
+                    // No provider is available in the selected date.
+                    for ($i = 1; $i <= $number_of_days_in_month; $i++) {
                         $current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
                         $unavailable_dates[] = $current_date->format('Y-m-d');
                     }
-                    echo json_encode($unavailable_dates);
+
+                    $this->output
+                        ->set_content_type('application/json')
+                        ->set_output(json_encode($unavailable_dates));
+
                     return;
                 }
-            } else {
-                $provider_ids = array($provider_id);
             }
 
-            // Get the available time periods for every day of this month.
+            // Get the provider record.
+            $this->load->model('providers_model');
+            $provider = $this->providers_model->get_row($provider_id);
+
+            // Get the service record.
             $this->load->model('services_model');
-            $service_duration = (int) $this->services_model->get_value('duration', $service_id);
-            $availabilities_type = (int) $this->services_model->get_value('availabilities_type', $service_id);
+            $service = $this->services_model->get_row($service_id);
 
-            for ($i = 1; $i <= $number_of_days; $i++) {
+            for ($i = 1; $i <= $number_of_days_in_month; $i++) {
                 $current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
-                $has_available_hours = false;
 
-                if ($current_date < new DateTime(date('Y-m-d 00:00:00'))) { // Past dates become immediately unavailable.
+                if ($current_date < new DateTime(date('Y-m-d 00:00:00'))) {
+                    // Past dates become immediately unavailable.
                     $unavailable_dates[] = $current_date->format('Y-m-d');
                     continue;
                 }
 
-                foreach ($provider_ids as $provider_id) {
-                    $empty_periods = $this->_get_provider_available_time_periods($provider_id, $service_id, $current_date->format('Y-m-d'));
+                $empty_periods = $this->_get_provider_available_time_periods($provider_id, $service_id, $current_date->format('Y-m-d'), $exclude_appointments);
 
-                    $available_hours = $this->_calculate_available_hours($empty_periods, $current_date->format('Y-m-d'), $service_duration, false, $availabilities_type);
+                $available_hours = $this->_calculate_available_hours($empty_periods, $current_date->format('Y-m-d'), $service['duration'], $manage_mode, $service['availabilities_type']);
 
-                    if (!empty($available_hours)) {
-                        $has_available_hours = true;
-                        break;
-                    }
+                if ($service['attendants_number'] > 1) {
+                    $available_hours = $this->_get_multiple_attendants_hours($current_date->format('Y-m-d'), $service, $provider);
                 }
 
-                if (!$has_available_hours) {
+                if (empty($available_hours)) {
                     $unavailable_dates[] = $current_date->format('Y-m-d');
                 }
             }
 
-            echo json_encode($unavailable_dates);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($unavailable_dates));
         } catch (Exception $exc) {
-            echo json_encode(array(
-                'exceptions' => array(exceptionToJavaScript($exc))
-            ));
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'exceptions' => [exceptionToJavaScript($exc)]
+            ]));
         }
     }
 
@@ -624,6 +628,7 @@ class Appointments extends CI_Controller {
         $this->load->model('services_model');
         $this->load->model('appointments_model');
 
+//ojo
         $appointment = $this->input->post('post_data')['appointment'];
 
         $service_duration = $this->services_model->get_value('duration', $appointment['id_services']);
@@ -647,8 +652,8 @@ class Appointments extends CI_Controller {
         }
 
         if ($appointment['id_users_provider'] === ANY_PROVIDER) {
-
             $appointment['id_users_provider'] = $this->_search_any_provider($appointment['id_services'], date('Y-m-d', strtotime($appointment['start_datetime'])));
+            //ojo
             $this->input->post('post_data')['appointment']['id_users_provider'] = $appointment['id_users_provider'];
 
 
@@ -657,7 +662,7 @@ class Appointments extends CI_Controller {
         }
 
         $available_periods = $this->_get_provider_available_time_periods(
-                $appointment['id_users_provider'], $appointment['id_services'], date('Y-m-d', strtotime($appointment['start_datetime'])), $exclude_appointments);
+            $appointment['id_users_provider'], $appointment['id_services'], date('Y-m-d', strtotime($appointment['start_datetime'])), $exclude_appointments);
 
         $is_still_available = FALSE;
 
@@ -708,10 +713,7 @@ class Appointments extends CI_Controller {
 
         $provider_appointments = $this->appointments_model->get_batch([
             'id_users_provider' => $provider_id,
-            'DATE(start_datetime)' => $selected_date
         ]);
-
-        $service = $this->services_model->get_row($service_id);
 
         // Sometimes it might be necessary to not take into account some appointment records in order to display what
         // the providers' available time periods would be without them.
@@ -779,6 +781,10 @@ class Appointments extends CI_Controller {
                         $remove_current_period = TRUE;
                     }
 
+                    if ($break_start == $period_start && $break_end == $period_end) {
+                        $remove_current_period = TRUE;
+                    }
+
                     if ($remove_current_period) {
                         unset($periods[$key]);
                     }
@@ -802,7 +808,7 @@ class Appointments extends CI_Controller {
                         // this period and leave the available part.
                         $period['start'] = $appointment_end->format('H:i');
                     } else {
-                        if ($appointment_start >= $period_start && $appointment_end <= $period_end) {
+                        if ($appointment_start >= $period_start && $appointment_end < $period_end) {
                             // The appointment is inside the time period, so we will split the period into two new
                             // others.
                             unset($periods[$index]);
@@ -814,9 +820,10 @@ class Appointments extends CI_Controller {
 
                             $periods[] = [
                                 'start' => $appointment_end->format('H:i'),
-                                //'end' => $appointment_end->format('H:i')
                                 'end' => $period_end->format('H:i')
                             ];
+                        } else if ($appointment_start == $period_start && $appointment_end == $period_end) {
+                            unset($periods[$index]); // The whole period is blocked so remove it from the available periods array.
                         } else {
                             if ($appointment_start >= $period_start && $appointment_end >= $period_start && $appointment_start <= $period_end) {
                                 // The appointment starts in the period and finishes out of it. We will need to remove
@@ -852,23 +859,26 @@ class Appointments extends CI_Controller {
      * @return int Returns the ID of the provider that can provide the service at the selected date.
      */
     protected function _search_any_provider($service_id, $selected_date) {
-
         $this->load->model('providers_model');
         $this->load->model('services_model');
         $available_providers = $this->providers_model->get_available_providers();
-
         $service = $this->services_model->get_row($service_id);
         $provider_id = NULL;
         $max_hours_count = 0;
 
         foreach ($available_providers as $provider) {
             foreach ($provider['services'] as $provider_service_id) {
-                if ($provider_service_id == $service_id) { // Check if the provider is available for the requested date.
+                if ($provider_service_id == $service_id) {
+                    // Check if the provider is available for the requested date.
                     $empty_periods = $this->_get_provider_available_time_periods($provider['id'], $service_id, $selected_date);
+
                     $available_hours = $this->_calculate_available_hours($empty_periods, $selected_date, $service['duration'], FALSE, $service['availabilities_type']);
+
+                    if ($service['attendants_number'] > 1) {
+                        $available_hours = $this->_get_multiple_attendants_hours($this->input->post('selected_date'), $service, $provider);
+                    }
+
                     if (count($available_hours) > $max_hours_count) {
-
-
                         $provider_id = $provider['id'];
                         $max_hours_count = count($available_hours);
                     }
@@ -911,7 +921,7 @@ class Appointments extends CI_Controller {
             $diff = $current_hour->diff($end_hour);
 
             while (($diff->h * 45 + $diff->i) >= intval($service_duration)) {
-                $available_hours[] = $current_hour->format('H:i a');
+                $available_hours[] = $current_hour->format('H:i');
                 $current_hour->add(new DateInterval('PT' . $interval . 'M'));
                 $diff = $current_hour->diff($end_hour);
             }
@@ -934,8 +944,6 @@ class Appointments extends CI_Controller {
     protected function _get_multiple_attendants_hours(
     $selected_date, $service, $provider
     ) {
-
-
         $this->load->model('appointments_model');
         $this->load->model('services_model');
         $this->load->model('providers_model');

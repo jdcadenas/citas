@@ -1,7 +1,6 @@
 <?php
 
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
   |--------------------------------------------------------------------------
@@ -80,6 +79,9 @@ define('PRIV_INVOICES', 'invoices');
 define('DATE_FORMAT_DMY', 'DMY');
 define('DATE_FORMAT_MDY', 'MDY');
 define('DATE_FORMAT_YMD', 'YMD');
+
+define('TIME_FORMAT_REGULAR', 'regular');
+define('TIME_FORMAT_MILITARY', 'military');
 
 define('MIN_PASSWORD_LENGTH', 7);
 define('ANY_PROVIDER', 'any-provider');

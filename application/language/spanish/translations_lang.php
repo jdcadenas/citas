@@ -45,12 +45,15 @@ $lang['service'] = 'Servicio';
 $lang['provider'] = 'Especialista';
 $lang['customer'] = 'Paciente';
 
-$lang['attendance_status'] = 'Estado';
-$lang['attendance_status_registered'] = 'Registrado';
-$lang['attendance_status_checked_in'] = 'Chequeado ✓';
+$lang['attendance_status'] = 'Estado de atenció';
+
+$lang['attendance_status_registered'] = 'Reservado';
+$lang['attendance_status_checked_in'] = 'Confirmado ✓';
 $lang['attendance_status_complet'] = 'Completado';
-$lang['attendance_action_check_in'] = 'Chequear';
-$lang['attendance_action_undo_check_in'] = 'Deshacer Chequeo';
+
+$lang['attendance_action_checked_in'] = 'chequeado';
+$lang['attendance_action_check_in'] = 'Cancelado';
+$lang['attendance_action_undo_check_in'] = 'Pendiente';
 $lang['start'] = 'Inicio';
 $lang['end'] = 'Final';
 $lang['name'] = 'Nombre';

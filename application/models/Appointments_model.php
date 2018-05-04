@@ -33,8 +33,6 @@ class Appointments_Model extends CI_Model {
      */
     public function add($appointment) {
         // Validate the appointment data before doing anything.
-
-
         $this->validate($appointment);
 
         // Perform insert() or update() operation.
@@ -68,13 +66,13 @@ class Appointments_Model extends CI_Model {
         }
 
         $num_rows = $this->db->get_where('ea_appointments', [
-                    'start_datetime' => $appointment['start_datetime'],
-                    'end_datetime' => $appointment['end_datetime'],
-                    'id_users_provider' => $appointment['id_users_provider'],
-                    'id_users_customer' => $appointment['id_users_customer'],
-                    'id_services' => $appointment['id_services'],
-                ])
-                ->num_rows();
+                'start_datetime' => $appointment['start_datetime'],
+                'end_datetime' => $appointment['end_datetime'],
+                'id_users_provider' => $appointment['id_users_provider'],
+                'id_users_customer' => $appointment['id_users_customer'],
+                'id_services' => $appointment['id_services'],
+            ])
+            ->num_rows();
 
         return ($num_rows > 0) ? TRUE : FALSE;
     }
@@ -183,12 +181,12 @@ class Appointments_Model extends CI_Model {
 
         // Check if the provider's id is valid.
         $num_rows = $this->db
-                        ->select('*')
-                        ->from('ea_users')
-                        ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                        ->where('ea_users.id', $appointment['id_users_provider'])
-                        ->where('ea_roles.slug', DB_SLUG_PROVIDER)
-                        ->get()->num_rows();
+                ->select('*')
+                ->from('ea_users')
+                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                ->where('ea_users.id', $appointment['id_users_provider'])
+                ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+                ->get()->num_rows();
         if ($num_rows == 0) {
             throw new Exception('Appointment provider id is invalid.');
         }
@@ -196,12 +194,12 @@ class Appointments_Model extends CI_Model {
         if ($appointment['is_unavailable'] == FALSE) {
             // Check if the customer's id is valid.
             $num_rows = $this->db
-                            ->select('*')
-                            ->from('ea_users')
-                            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                            ->where('ea_users.id', $appointment['id_users_customer'])
-                            ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
-                            ->get()->num_rows();
+                    ->select('*')
+                    ->from('ea_users')
+                    ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                    ->where('ea_users.id', $appointment['id_users_customer'])
+                    ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
+                    ->get()->num_rows();
             if ($num_rows == 0) {
                 throw new Exception('Appointment customer id is invalid.');
             }
@@ -308,7 +306,7 @@ class Appointments_Model extends CI_Model {
      *
      * @return array Returns the rows from the database.
      */
-    public function get_batch($where_clause = '', $aggregates = false) {
+    public function get_batch($where_clause = '', $aggregates = FALSE) {
         if ($where_clause != '') {
             $this->db->where($where_clause);
         }
@@ -431,9 +429,9 @@ class Appointments_Model extends CI_Model {
      */
     public function appointment_count_for_hour($service_id, $selected_date, $hour) {
         return $this->db->get_where('ea_appointments', [
-                    'id_services' => $service_id,
-                    'start_datetime' => date('Y-m-d H:i:s', strtotime($selected_date . ' ' . $hour . ':00'))
-                ])->num_rows();
+                'id_services' => $service_id,
+                'start_datetime' => date('Y-m-d H:i:s', strtotime($selected_date . ' ' . $hour . ':00'))
+            ])->num_rows();
     }
 
     /**
@@ -447,20 +445,20 @@ class Appointments_Model extends CI_Model {
      */
     public function get_attendants_number_for_period(DateTime $slot_start, DateTime $slot_end, $service_id) {
         return(int) $this->db
-                        ->select('count(*) AS attendants_number')
-                        ->from('ea_appointments')
-                        ->group_start()
-                        ->where('start_datetime <=', $slot_start->format('Y-m-d H:i:s'))
-                        ->where('end_datetime >', $slot_start->format('Y-m-d H:i:s'))
-                        ->group_end()
-                        ->or_group_start()
-                        ->where('start_datetime <', $slot_end->format('Y-m-d H:i:s'))
-                        ->where('end_datetime >=', $slot_end->format('Y-m-d H:i:s'))
-                        ->group_end()
-                        ->where('id_services', $service_id)
-                        ->get()
-                        ->row()
-                ->attendants_number;
+                ->select('count(*) AS attendants_number')
+                ->from('ea_appointments')
+                ->group_start()
+                ->where('start_datetime <=', $slot_start->format('Y-m-d H:i:s'))
+                ->where('end_datetime >', $slot_start->format('Y-m-d H:i:s'))
+                ->group_end()
+                ->or_group_start()
+                ->where('start_datetime <', $slot_end->format('Y-m-d H:i:s'))
+                ->where('end_datetime >=', $slot_end->format('Y-m-d H:i:s'))
+                ->group_end()
+                ->where('id_services', $service_id)
+                ->get()
+                ->row()
+            ->attendants_number;
     }
 
     /**

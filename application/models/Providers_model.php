@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -92,12 +92,12 @@ class Providers_Model extends CI_Model {
 
         // This method shouldn't depend on another method of this class.
         $num_rows = $this->db
-                        ->select('*')
-                        ->from('ea_users')
-                        ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                        ->where('ea_users.email', $provider['email'])
-                        ->where('ea_roles.slug', DB_SLUG_PROVIDER)
-                        ->get()->num_rows();
+                ->select('*')
+                ->from('ea_users')
+                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                ->where('ea_users.email', $provider['email'])
+                ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+                ->get()->num_rows();
 
         return ($num_rows > 0) ? TRUE : FALSE;
     }
@@ -190,12 +190,12 @@ class Providers_Model extends CI_Model {
         }
 
         $result = $this->db
-                ->select('ea_users.id')
-                ->from('ea_users')
-                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                ->where('ea_users.email', $provider['email'])
-                ->where('ea_roles.slug', DB_SLUG_PROVIDER)
-                ->get();
+            ->select('ea_users.id')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_users.email', $provider['email'])
+            ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+            ->get();
 
         if ($result->num_rows() == 0) {
             throw new Exception('Could not find provider record id.');
@@ -278,14 +278,14 @@ class Providers_Model extends CI_Model {
         $provider_id = (isset($provider['id'])) ? $provider['id'] : '';
 
         $num_rows = $this->db
-                ->select('*')
-                ->from('ea_users')
-                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                ->where('ea_roles.slug', DB_SLUG_PROVIDER)
-                ->where('ea_users.email', $provider['email'])
-                ->where('ea_users.id <>', $provider_id)
-                ->get()
-                ->num_rows();
+            ->select('*')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+            ->where('ea_users.email', $provider['email'])
+            ->where('ea_users.id <>', $provider_id)
+            ->get()
+            ->num_rows();
 
         if ($num_rows > 0) {
             throw new Exception('Given email address belongs to another provider record. '
@@ -444,10 +444,10 @@ class Providers_Model extends CI_Model {
     public function get_available_providers() {
         // Get provider records from database.
         $this->db
-                ->select('ea_users.*')
-                ->from('ea_users')
-                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                ->where('ea_roles.slug', DB_SLUG_PROVIDER);
+            ->select('ea_users.*')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_roles.slug', DB_SLUG_PROVIDER);
 
         $providers = $this->db->get()->result_array();
 
@@ -529,7 +529,7 @@ class Providers_Model extends CI_Model {
 
         // Check if the setting record exists in db.
         if ($this->db->get_where('ea_user_settings', ['id_users' => $provider_id])
-                        ->num_rows() == 0) {
+                ->num_rows() == 0) {
             $this->db->insert('ea_user_settings', ['id_users' => $provider_id]);
         }
 

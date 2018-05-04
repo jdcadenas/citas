@@ -47,6 +47,7 @@ $lang['customer'] = 'Customer';
 /* mod jose cadenas */
 $lang['attendance_status'] = 'Status';
 $lang['attendance_status_registered'] = 'Registered';
+$lang['attendance_status_complet'] = 'Complet';
 $lang['attendance_status_checked_in'] = 'Checked in ✓';
 $lang['attendance_action_check_in'] = 'Check In';
 $lang['attendance_action_undo_check_in'] = 'Undo Check In';

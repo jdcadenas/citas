@@ -15,7 +15,7 @@
         <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
         <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
-
+   <!-- <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>"> -->
     </head>
 
     <body>
@@ -46,7 +46,7 @@
                     </div>
 
                     <?php
-                    if ($manage_mode === TRUE) {
+                    if ($manage_mode == TRUE) {
                         echo '
                             <div id="cancel-appointment-frame" class="row">
                                 <div class="col-xs-12 col-sm-10">
@@ -124,7 +124,7 @@
                                             }
 
                                             foreach ($grouped_services as $key => $group) {
-                                                $group_label = ($key != 'uncategorized') ? $group[0]['category_name'] : 'Sin categoría';
+                                                $group_label = ($key != 'uncategorized') ? $group[0]['category_name'] : 'Uncategorized';
 
                                                 if (count($group) > 0) {
                                                     echo '<optgroup label="' . $group_label . '">';
@@ -233,7 +233,6 @@
                                         <label for="city" class="control-label"><?= lang('city') ?></label>
                                         <input type="text" id="city" class="form-control" maxlength="120" />
                                     </div>
-
                                     <div class="form-group">
                                         <label for="notes" class="control-label"><?= lang('notes') ?></label>
                                         <textarea id="notes" maxlength="500" class="form-control" rows="3"></textarea>
@@ -303,12 +302,12 @@
                     <div id="frame-footer">
 
                     <!--    <span id="select-language" class="label label-success">
-                        <?php //= ucfirst($this->config->item('language')) ?>
+                        <?php //= ucfirst($this->config->item('language'))  ?>
                         </span>
                         -->
-                        <k3><a href="<?= site_url('backend'); ?>" class="label label-success">
-                                <?= $this->session->user_id ? lang('backend_section') : lang('login') ?>
-                            </a></k3>
+                        <a href="<?= site_url('backend'); ?>" class="label label-success">
+                            <?= $this->session->user_id ? lang('backend_section') : lang('login') ?>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -318,9 +317,10 @@
             var GlobalVariables = {
                 availableServices: <?= json_encode($available_services) ?>,
                 availableProviders: <?= json_encode($available_providers) ?>,
-                baseUrl: <?= json_encode(base_url()) ?>,
+                baseUrl: <?= json_encode(config('base_url')) ?>,
                 manageMode: <?= $manage_mode ? 'true' : 'false' ?>,
                 dateFormat: <?= json_encode($date_format) ?>,
+                timeFormat: <?= json_encode($time_format) ?>,
                 appointmentData: <?= json_encode($appointment_data) ?>,
                 providerData: <?= json_encode($provider_data) ?>,
                 customerData: <?= json_encode($customer_data) ?>,

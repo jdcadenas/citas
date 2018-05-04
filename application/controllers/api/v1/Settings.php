@@ -1,11 +1,13 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.2.0
@@ -23,6 +25,7 @@ use \EA\Engine\Api\V1\Request;
  * @subpackage API
  */
 class Settings extends API_V1_Controller {
+
     /**
      * Settings Resource Parser
      *
@@ -33,8 +36,7 @@ class Settings extends API_V1_Controller {
     /**
      * Class Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->load->model('settings_model');
         $this->parser = new \EA\Engine\Api\V1\Parsers\Settings;
@@ -45,27 +47,21 @@ class Settings extends API_V1_Controller {
      *
      * @param string $name Optional (null), the setting name to be returned.
      */
-    public function get($name = NULL)
-    {
-        try
-        {
+    public function get($name = NULL) {
+        try {
             $settings = $this->settings_model->get_settings();
 
-            if ($name !== NULL)
-            {
+            if ($name !== NULL) {
                 $setting = NULL;
 
-                foreach ($settings as $entry)
-                {
-                    if ($entry['name'] === $name)
-                    {
+                foreach ($settings as $entry) {
+                    if ($entry['name'] === $name) {
                         $setting = $entry;
                         break;
                     }
                 }
 
-                if (empty($setting))
-                {
+                if (empty($setting)) {
                     $this->_throwRecordNotFound();
                 }
 
@@ -85,10 +81,7 @@ class Settings extends API_V1_Controller {
                 ->minimize()
                 ->singleEntry($name)
                 ->output();
-
-        }
-        catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             exit($this->_handleException($exception));
         }
     }
@@ -98,10 +91,8 @@ class Settings extends API_V1_Controller {
      *
      * @param string $name The setting name to be inserted/updated.
      */
-    public function put($name)
-    {
-        try
-        {
+    public function put($name) {
+        try {
             $request = new Request();
             $value = $request->getBody()['value'];
             $this->settings_model->set_setting($name, $value);
@@ -114,9 +105,7 @@ class Settings extends API_V1_Controller {
                 ]
             ]);
             $response->encode($this->parser)->singleEntry($name)->output();
-        }
-        catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             exit($this->_handleException($exception));
         }
     }
@@ -126,10 +115,8 @@ class Settings extends API_V1_Controller {
      *
      * @param string $name The setting name to be deleted.
      */
-    public function delete($name)
-    {
-        try
-        {
+    public function delete($name) {
+        try {
             $result = $this->settings_model->remove_setting($name);
 
             $response = new Response([
@@ -138,10 +125,9 @@ class Settings extends API_V1_Controller {
             ]);
 
             $response->output();
-        }
-        catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             exit($this->_handleException($exception));
         }
     }
+
 }

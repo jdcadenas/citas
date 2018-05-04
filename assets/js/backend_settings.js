@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -84,7 +84,7 @@ window.BackendSettings = window.BackendSettings || {};
         $('#address').val(GlobalVariables.settings.user.address);
         $('#city').val(GlobalVariables.settings.user.city);
         $('#state').val(GlobalVariables.settings.user.state);
-  
+
         $('#notes').val(GlobalVariables.settings.user.notes);
 
         $('#username').val(GlobalVariables.settings.user.settings.username);
@@ -133,7 +133,7 @@ window.BackendSettings = window.BackendSettings || {};
          *
          * Change the visible tab contents.
          */
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (event) {
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function(event) {
             // Bootstrap has a bug with toggle buttons. Their toggle state is lost when the button is hidden or shown.
             // Show before anything else we need to store the toggle and apply it whenever the user tab is clicked.
             var areNotificationsActive = $('#user-notifications').hasClass('active');

@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -64,28 +64,23 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
-            var time_format;
-            time_format = GlobalVariables.timeFormat;
+
             // The response contains the available hours for the selected provider and
             // service. Fill the available hours div with response data.
             if (response.length > 0) {
                 var currColumn = 1;
-                // $('#available-hours').html('<div style="width:80px; float:left;"></div>');
-//AM/PM Time Change Mod 1 Craig Tucker start
-                //   if (time_format == '24HR') {
-                //$('#available-hours').html('<div style="width:50px; display: inline-block; vertical-align:top;"></div>');
-                //    } else {
-                $('#available-hours').html('<div style="width:80px; display: inline-block; vertical-align:top;"></div>');
-                //    }
-//AM/PM Time Change Mod 1 Craig Tucker end
+                $('#available-hours').html('<div style="width:80px; float:left;"></div>');
+
+                var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
+
                 $.each(response, function(index, availableHour) {
                     if ((currColumn * 10) < (index + 1)) {
                         currColumn++;
-                        $('#available-hours').append('<div style="width:80px; display: inline-block; vertical-align:top;"></div>');
+                        $('#available-hours').append('<div style="width:80px; float:left;"></div>');
                     }
 
                     $('#available-hours div:eq(' + (currColumn - 1) + ')').append(
-                            '<span class="available-hour">' + Date.parse(availableHour).toString('h:mm tt') + '</span><br/>');
+                            '<span class="available-hour">' + Date.parse(availableHour).toString(timeFormat) + '</span><br/>');
                 });
 
                 if (FrontendBook.manageMode) {
@@ -94,7 +89,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     $('.available-hour').filter(function() {
                         return $(this).text() === Date.parseExact(
                                 GlobalVariables.appointmentData.start_datetime,
-                                'yyyy-MM-dd HH:mm:ss').toString('h:mm tt');
+                                'yyyy-MM-dd HH:mm:ss').toString(timeFormat);
                     }).addClass('selected-hour');
                 } else {
                     // Set the first available hour as the default selection.
@@ -170,7 +165,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
                     if (response.captcha_verification === false) {
                         $('#captcha-hint')
-                                .text(EALang.captcha_is_wrong + '(' + response.expected_phrase + ')')
+                                .text(EALang.captcha_is_wrong)
                                 .fadeTo(400, 1);
 
                         setTimeout(function() {
@@ -212,12 +207,16 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             return;
         }
 
+        var appointmentId = FrontendBook.manageMode ? GlobalVariables.appointmentData.id : undefined;
+
         var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_unavailable_dates';
         var data = {
             provider_id: providerId,
             service_id: serviceId,
             selected_date: encodeURIComponent(selectedDateString),
-            csrfToken: GlobalVariables.csrfToken
+            csrfToken: GlobalVariables.csrfToken,
+            manage_mode: FrontendBook.manageMode,
+            appointment_id: appointmentId
         };
 
         $.ajax({
@@ -247,7 +246,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         var selectedDate = Date.parse(selectedDateString);
         var numberOfDays = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
 
-        if (setDate) {
+        if (setDate && !GlobalVariables.manageMode) {
             for (var i = 1; i <= numberOfDays; i++) {
                 var currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
                 if (unavailableDates.indexOf(currentDate.toString('yyyy-MM-dd')) === -1) {

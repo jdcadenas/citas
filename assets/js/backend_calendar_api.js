@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.2.0
@@ -20,7 +20,7 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
 
 (function(exports) {
 
-    'use strict'; 
+    'use strict';
 
     /**
      * Save Appointment
@@ -50,16 +50,16 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
             data: data,
             dataType: 'json'
         })
-            .done(function(response) {
-                if (successCallback !== undefined) {
-                    successCallback(response);
-                }
-            })
-            .fail(function(jqXHR, textStatus, errorThrown) {
-                if (errorCallback !== undefined) {
-                    errorCallback();
-                }
-            });
+                .done(function(response) {
+                    if (successCallback !== undefined) {
+                        successCallback(response);
+                    }
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+                    if (errorCallback !== undefined) {
+                        errorCallback();
+                    }
+                });
     };
 
     /**
@@ -85,4 +85,4 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
         });
     };
 
-})(window.BackendCalendarApi); 
+})(window.BackendCalendarApi);

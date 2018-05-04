@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.2.0
@@ -107,15 +107,25 @@ class Email {
                 throw new \Exception('Invalid date_format value: ' . $company['date_format']);
         }
 
+        switch ($company['time_format']) {
+            case 'military':
+                $timeFormat = 'H:i';
+                break;
+            case 'regular':
+                $timeFormat = 'g:i A';
+                break;
+            default:
+                throw new \Exception('Invalid time_format value: ' . $company['time_format']);
+        }
+
         // Prepare template replace array.
         $replaceArray = [
             '$email_title' => $title->get(),
             '$email_message' => $message->get(),
             '$appointment_service' => $service['name'],
             '$appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
-            '$appointment_start_date' => date($date_format . ' g:i A', strtotime($appointment['start_datetime'])),
-            '$appointment_end_date' => date($date_format . ' g:i A', strtotime($appointment['end_datetime'])),
-            '$attendance_status' => $this->framework->lang->line('attendance_status_' . $appointment['attendance_status']),
+            '$appointment_start_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime'])),
+            '$appointment_end_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['end_datetime'])),
             '$appointment_link' => $appointmentLink->get(),
             '$company_link' => $company['company_link'],
             '$company_name' => $company['company_name'],
@@ -134,8 +144,7 @@ class Email {
             'Email' => $this->framework->lang->line('email'),
             'Phone' => $this->framework->lang->line('phone'),
             'Address' => $this->framework->lang->line('address'),
-            'Appointment Link' => $this->framework->lang->line('appointment_link_title'),
-            'Status' => $this->framework->lang->line('attendance_status')
+            'Appointment Link' => $this->framework->lang->line('appointment_link_title')
         ];
 
         $html = file_get_contents(__DIR__ . '/../../application/views/emails/appointment_details.php');
@@ -192,13 +201,24 @@ class Email {
                 throw new \Exception('Invalid date_format value: ' . $company['date_format']);
         }
 
+        switch ($company['time_format']) {
+            case 'military':
+                $timeFormat = 'H:i';
+                break;
+            case 'regular':
+                $timeFormat = 'g:i A';
+                break;
+            default:
+                throw new \Exception('Invalid time_format value: ' . $company['time_format']);
+        }
+
         // Prepare email template data.
         $replaceArray = [
             '$email_title' => $this->framework->lang->line('appointment_cancelled_title'),
             '$email_message' => $this->framework->lang->line('appointment_removed_from_schedule'),
             '$appointment_service' => $service['name'],
             '$appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
-            '$appointment_date' => date($date_format . ' g:i A', strtotime($appointment['start_datetime'])),
+            '$appointment_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime'])),
             '$appointment_duration' => $service['duration'] . ' minutes',
             '$company_link' => $company['company_link'],
             '$company_name' => $company['company_name'],

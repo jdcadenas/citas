@@ -1,11 +1,13 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.2.0
@@ -24,6 +26,7 @@ use \EA\Engine\Types\NonEmptyText;
  * @subpackage API
  */
 class Appointments extends API_V1_Controller {
+
     /**
      * Appointments Resource Parser
      *
@@ -34,8 +37,7 @@ class Appointments extends API_V1_Controller {
     /**
      * Class Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->load->model('appointments_model');
         $this->parser = new \EA\Engine\Api\V1\Parsers\Appointments;
@@ -46,15 +48,19 @@ class Appointments extends API_V1_Controller {
      *
      * @param int $id Optional (null), the record ID to be returned.
      */
-    public function get($id = NULL)
-    {
-        try
-        {
-            $condition = $id !== NULL ? 'id = ' . $id : NULL;
-            $appointments = $this->appointments_model->get_batch($condition, array_key_exists('aggregates', $_GET));
+    public function get($id = NULL) {
+        try {
+            $conditions = [
+                'is_unavailable' => FALSE
+            ];
 
-            if ($id !== NULL && count($appointments) === 0)
-            {
+            if ($id !== NULL) {
+                $conditions['id'] = $id;
+            }
+
+            $appointments = $this->appointments_model->get_batch($conditions, array_key_exists('aggregates', $_GET));
+
+            if ($id !== NULL && count($appointments) === 0) {
                 $this->_throwRecordNotFound();
             }
 
@@ -67,10 +73,7 @@ class Appointments extends API_V1_Controller {
                 ->minimize()
                 ->singleEntry($id)
                 ->output();
-
-        }
-        catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             exit($this->_handleException($exception));
         }
     }
@@ -78,17 +81,14 @@ class Appointments extends API_V1_Controller {
     /**
      * POST API Method
      */
-    public function post()
-    {
-        try
-        {
-            // Insert the appointment to the database. 
+    public function post() {
+        try {
+            // Insert the appointment to the database.
             $request = new Request();
             $appointment = $request->getBody();
             $this->parser->decode($appointment);
 
-            if (isset($appointment['id']))
-            {
+            if (isset($appointment['id'])) {
                 unset($appointment['id']);
             }
 
@@ -99,9 +99,7 @@ class Appointments extends API_V1_Controller {
             $response = new Response($batch);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
-        }
-        catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             exit($this->_handleException($exception));
         }
     }
@@ -111,15 +109,12 @@ class Appointments extends API_V1_Controller {
      *
      * @param int $id The record ID to be updated.
      */
-    public function put($id)
-    {
-        try
-        {
-            // Update the appointment record. 
+    public function put($id) {
+        try {
+            // Update the appointment record.
             $batch = $this->appointments_model->get_batch('id = ' . $id);
 
-            if ($id !== NULL && count($batch) === 0)
-            {
+            if ($id !== NULL && count($batch) === 0) {
                 $this->_throwRecordNotFound();
             }
 
@@ -134,9 +129,7 @@ class Appointments extends API_V1_Controller {
             $batch = $this->appointments_model->get_batch('id = ' . $id);
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
-        }
-        catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             exit($this->_handleException($exception));
         }
     }
@@ -146,10 +139,8 @@ class Appointments extends API_V1_Controller {
      *
      * @param int $id The record ID to be deleted.
      */
-    public function delete($id)
-    {
-        try
-        {
+    public function delete($id) {
+        try {
             $this->appointments_model->delete($id);
 
             $response = new Response([
@@ -158,10 +149,9 @@ class Appointments extends API_V1_Controller {
             ]);
 
             $response->output();
-        }
-        catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             exit($this->_handleException($exception));
         }
     }
+
 }

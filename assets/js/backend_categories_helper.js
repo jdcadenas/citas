@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -117,7 +117,7 @@
                 },
                 {
                     text: EALang.cancel,
-                    click:  function() {
+                    click: function() {
                         $('#message_box').dialog('close');
                     }
                 }
@@ -219,7 +219,7 @@
             $('#filter-categories .key').val('');
             this.filter('', response.id, true);
             BackendServices.updateAvailableCategories();
-        }. bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -281,7 +281,7 @@
             }
 
             return true;
-        } catch(message) {
+        } catch (message) {
             return false;
         }
     };
@@ -311,7 +311,7 @@
     CategoriesHelper.prototype.getFilterHtml = function(category) {
         var html =
                 '<div class="category-row entry" data-id="' + category.id + '">' +
-                    '<strong>' + category.name + '</strong>' +
+                '<strong>' + category.name + '</strong>' +
                 '</div><hr>';
 
         return html;

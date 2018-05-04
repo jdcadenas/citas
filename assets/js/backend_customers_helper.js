@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -150,7 +150,7 @@
                 phone_number: $('#phone-number').val(),
                 address: $('#address').val(),
                 city: $('#city').val(),
-             
+
                 notes: $('#notes').val()
             };
 
@@ -180,7 +180,7 @@
                 },
                 {
                     text: EALang.cancel,
-                    click:  function() {
+                    click: function() {
                         $('#message_box').dialog('close');
                     }
                 }
@@ -243,8 +243,8 @@
      */
     CustomersHelper.prototype.validate = function() {
         $('#form-message')
-            .removeClass('alert-danger')
-            .hide();
+                .removeClass('alert-danger')
+                .hide();
         $('.has-error').removeClass('has-error');
 
         try {
@@ -269,11 +269,11 @@
             }
 
             return true;
-        } catch(message) {
+        } catch (message) {
             $('#form-message')
-                .addClass('alert-danger')
-                .text(message)
-                .show();
+                    .addClass('alert-danger')
+                    .text(message)
+                    .show();
             return false;
         }
     };
@@ -312,7 +312,7 @@
         $('#phone-number').val(customer.phone_number);
         $('#address').val(customer.address);
         $('#city').val(customer.city);
-   
+
         $('#notes').val(customer.notes);
 
         $('#customer-appointments').empty();
@@ -321,9 +321,9 @@
             var end = GeneralFunctions.formatDate(Date.parse(appointment.end_datetime), GlobalVariables.dateFormat, true);
             var html =
                     '<div class="appointment-row" data-id="' + appointment.id + '">' +
-                        start + ' - ' + end + '<br>' +
-                        appointment.service.name + ', ' +
-                        appointment.provider.first_name + ' ' + appointment.provider.last_name +
+                    start + ' - ' + end + '<br>' +
+                    appointment.service.name + ', ' +
+                    appointment.provider.first_name + ' ' + appointment.provider.last_name +
                     '</div>';
             $('#customer-appointments').append(html);
         });
@@ -357,9 +357,9 @@
 
             $('#filter-customers .results').html('');
             $.each(response, function(index, customer) {
-               var html = this.getFilterHtml(customer);
-               $('#filter-customers .results').append(html);
-           }.bind(this));
+                var html = this.getFilterHtml(customer);
+                $('#filter-customers .results').append(html);
+            }.bind(this));
             if (response.length == 0) {
                 $('#filter-customers .results').html('<em>' + EALang.no_records_found + '</em>');
             }
@@ -386,10 +386,10 @@
 
         var html =
                 '<div class="entry" data-id="' + customer.id + '">' +
-                    '<strong>' +
-                        name +
-                    '</strong><br>' +
-                    info +
+                '<strong>' +
+                name +
+                '</strong><br>' +
+                info +
                 '</div><hr>';
 
         return html;
@@ -438,9 +438,9 @@
 
         var html =
                 '<div>' +
-                    '<strong>' + appointment.service.name + '</strong><br>' +
-                    appointment.provider.first_name + ' ' + appointment.provider.last_name + '<br>' +
-                    start + ' - ' + end + '<br>' +
+                '<strong>' + appointment.service.name + '</strong><br>' +
+                appointment.provider.first_name + ' ' + appointment.provider.last_name + '<br>' +
+                start + ' - ' + end + '<br>' +
                 '</div>';
 
         $('#appointment-details').html(html).removeClass('hidden');

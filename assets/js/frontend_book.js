@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -43,8 +43,9 @@ window.FrontendBook = window.FrontendBook || {};
         bindEventHandlers = bindEventHandlers || true;
         manageMode = manageMode || false;
 
-        if (window.console == undefined) {
-            window.console = function() {}; // IE compatibility
+        if (window.console === undefined) {
+            window.console = function() {
+            }; // IE compatibility
         }
 
         FrontendBook.manageMode = manageMode;
@@ -62,7 +63,7 @@ window.FrontendBook = window.FrontendBook || {};
 
         $('#select-date').datepicker({
             dateFormat: 'dd-mm-yy',
-            firstDay: 1,
+            firstDay: 0,
             minDate: 0,
             defaultDate: Date.today(),
 
@@ -185,7 +186,7 @@ window.FrontendBook = window.FrontendBook || {};
             // Add the "Any Provider" entry.
             if ($('#select-provider option').length >= 1) {
                 $('#select-provider').append(new Option('- ' + EALang.any_provider + ' -', 'any-provider'));
-                $("#select-provider option:contains('any-provider')").prop('selected', 'selected');
+                //      $("#select-provider option:contains('any-provider')").prop('selected', 'selected');
             }
 
             FrontendBookApi.getUnavailableDates($('#select-provider').val(), $(this).val(),
@@ -338,7 +339,6 @@ window.FrontendBook = window.FrontendBook || {};
             }, 300); // There is no draw event unfortunately.
         })
     }
-    ;
 
     /**
      * This function validates the customer's data input. The user cannot continue
@@ -454,8 +454,7 @@ window.FrontendBook = window.FrontendBook || {};
 
         postData.appointment = {
             start_datetime: $('#select-date').datepicker('getDate').toString('yyyy-MM-dd')
-                    //  + ' ' + Date.parse($('.selected-hour').text()).toString('HH:mm') + ':00',
-                    + ' ' + Date.parse((($('.selected-hour').text()) ? $('.selected-hour').text() : '00:00')).toString('HH:mm') + ':00',
+                    + ' ' + Date.parse($('.selected-hour').text()).toString('HH:mm') + ':00',
             end_datetime: _calcEndDatetime(),
             notes: $('#notes').val(),
             is_unavailable: false,
@@ -492,9 +491,8 @@ window.FrontendBook = window.FrontendBook || {};
 
         // Add the duration to the start datetime.
         var startDatetime = $('#select-date').datepicker('getDate').toString('dd-MM-yyyy')
-                // + ' ' + Date.parse($('.selected-hour').text()).toString('HH:mm');
-                + ' ' + Date.parse((($('.selected-hour').text()) ? $('.selected-hour').text() : '00:00')).toString('HH:mm'),
-                startDatetime = Date.parseExact(startDatetime, 'dd-MM-yyyy HH:mm');
+                + ' ' + Date.parse($('.selected-hour').text()).toString('HH:mm');
+        startDatetime = Date.parseExact(startDatetime, 'dd-MM-yyyy HH:mm');
         var endDatetime = undefined;
 
         if (selServiceDuration !== undefined && startDatetime !== null) {

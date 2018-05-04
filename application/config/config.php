@@ -1,7 +1,6 @@
 <?php
 
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
   |--------------------------------------------------------------------------
@@ -11,8 +10,8 @@ if (!defined('BASEPATH'))
   | Declare some of the global config values of Easy!Appointments.
   |
  */
-$config['version'] = '1.3.0'; // This must be changed manually.
-$config['release_label'] = 'Alpha'; // Leave empty for no title or add Alpha, Beta etc ...
+$config['version'] = '1.3.1'; // This must be changed manually.
+$config['release_label'] = ''; // Leave empty for no title or add Alpha, Beta etc ...
 $config['google_sync_feature'] = Config::GOOGLE_SYNC_FEATURE;
 
 /*
@@ -211,7 +210,7 @@ $config['directory_trigger'] = 'd'; // experimental not currently in use
   | your log files will fill up very fast.
   |
  */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 1;
 
 /*
   |--------------------------------------------------------------------------
@@ -256,7 +255,7 @@ $config['cache_path'] = __DIR__ . '/../../storage/cache/';
   | new release.
   |
  */
-$config['cache_busting_token'] = 'dfsg8s09df8g098';
+$config['cache_busting_token'] = 'dfsg8s01df8g098';
 
 /*
   |--------------------------------------------------------------------------

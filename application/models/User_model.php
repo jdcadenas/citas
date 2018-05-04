@@ -1,11 +1,13 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -19,6 +21,7 @@
  * @package Models
  */
 class User_Model extends CI_Model {
+
     /**
      * Returns the user from the database for the "settings" page.
      *
@@ -28,8 +31,7 @@ class User_Model extends CI_Model {
      *
      * @todo Refactor this method as it does not do as it states.
      */
-    public function get_settings($user_id)
-    {
+    public function get_settings($user_id) {
         $user = $this->db->get_where('ea_users', ['id' => $user_id])->row_array();
         $user['settings'] = $this->db->get_where('ea_user_settings', ['id_users' => $user_id])->row_array();
         unset($user['settings']['id_users']);
@@ -45,27 +47,23 @@ class User_Model extends CI_Model {
      *
      * @todo Refactor this method as it does not do as it states.
      */
-    public function save_settings($user)
-    {
+    public function save_settings($user) {
         $user_settings = $user['settings'];
         $user_settings['id_users'] = $user['id'];
         unset($user['settings']);
 
         // Prepare user password (hash).
-        if (isset($user_settings['password']))
-        {
+        if (isset($user_settings['password'])) {
             $this->load->helper('general');
             $salt = $this->db->get_where('ea_user_settings', ['id_users' => $user['id']])->row()->salt;
             $user_settings['password'] = hash_password($salt, $user_settings['password']);
         }
 
-        if ( ! $this->db->update('ea_users', $user, ['id' => $user['id']]))
-        {
+        if (!$this->db->update('ea_users', $user, ['id' => $user['id']])) {
             return FALSE;
         }
 
-        if ( ! $this->db->update('ea_user_settings', $user_settings, ['id_users' => $user['id']]))
-        {
+        if (!$this->db->update('ea_user_settings', $user_settings, ['id_users' => $user['id']])) {
             return FALSE;
         }
 
@@ -79,8 +77,7 @@ class User_Model extends CI_Model {
      *
      * @return string Returns the salt db value.
      */
-    public function get_salt($username)
-    {
+    public function get_salt($username) {
         $user = $this->db->get_where('ea_user_settings', ['username' => $username])->row_array();
         return ($user) ? $user['salt'] : '';
     }
@@ -93,21 +90,20 @@ class User_Model extends CI_Model {
      *
      * @return array|null Returns the session data of the logged in user or null on failure.
      */
-    public function check_login($username, $password)
-    {
+    public function check_login($username, $password) {
         $this->load->helper('general');
         $salt = $this->user_model->get_salt($username);
         $password = hash_password($salt, $password);
 
         $user_data = $this->db
-            ->select('ea_users.id AS user_id, ea_users.email AS user_email, '
-                . 'ea_roles.slug AS role_slug, ea_user_settings.username')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->join('ea_user_settings', 'ea_user_settings.id_users = ea_users.id')
-            ->where('ea_user_settings.username', $username)
-            ->where('ea_user_settings.password', $password)
-            ->get()->row_array();
+                ->select('ea_users.id AS user_id, ea_users.email AS user_email, '
+                    . 'ea_roles.slug AS role_slug, ea_user_settings.username')
+                ->from('ea_users')
+                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                ->join('ea_user_settings', 'ea_user_settings.id_users = ea_users.id')
+                ->where('ea_user_settings.username', $username)
+                ->where('ea_user_settings.password', $password)
+                ->get()->row_array();
 
         return ($user_data) ? $user_data : NULL;
     }
@@ -121,11 +117,9 @@ class User_Model extends CI_Model {
      *
      * @throws Exception If $user_id argument is invalid.
      */
-    public function get_user_display_name($user_id)
-    {
-        if ( ! is_numeric($user_id))
-        {
-            throw new Exception ('Invalid argument given: ' . $user_id);
+    public function get_user_display_name($user_id) {
+        if (!is_numeric($user_id)) {
+            throw new Exception('Invalid argument given: ' . $user_id);
         }
 
         $user = $this->db->get_where('ea_users', ['id' => $user_id])->row_array();
@@ -142,8 +136,7 @@ class User_Model extends CI_Model {
      *
      * @return string|bool Returns the new password on success or FALSE on failure.
      */
-    public function regenerate_password($username, $email)
-    {
+    public function regenerate_password($username, $email) {
         $this->load->helper('general');
 
         $result = $this->db
@@ -154,8 +147,7 @@ class User_Model extends CI_Model {
             ->where('ea_user_settings.username', $username)
             ->get();
 
-        if ($result->num_rows() == 0)
-        {
+        if ($result->num_rows() == 0) {
             return FALSE;
         }
 
@@ -169,4 +161,5 @@ class User_Model extends CI_Model {
 
         return $new_password;
     }
+
 }

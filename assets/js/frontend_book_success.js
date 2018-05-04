@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -47,10 +47,10 @@ $(document).ready(function() {
 
             appointmentData.start_datetime = GeneralFunctions.ISODateString(
                     Date.parseExact(appointmentData.start_datetime,
-                    'yyyy-MM-dd HH:mm:ss'));
+                            'yyyy-MM-dd HH:mm:ss'));
             appointmentData.end_datetime = GeneralFunctions.ISODateString(
                     Date.parseExact(appointmentData.end_datetime,
-                    'yyyy-MM-dd HH:mm:ss'));
+                            'yyyy-MM-dd HH:mm:ss'));
 
             // Create a valid Google Calendar API resource for the new event.
             var resource = {
@@ -83,31 +83,31 @@ $(document).ready(function() {
                     }
 
                     $('#success-frame').append(
-                        '<br><br>' +
-                        '<div class="alert alert-success col-xs-12">' +
+                            '<br><br>' +
+                            '<div class="alert alert-success col-xs-12">' +
                             '<h4>' + EALang.success + '</h4>' +
                             '<p>' +
-                                EALang.appointment_added_to_google_calendar +
-                                '<br>' +
-                                '<a href="' + response.htmlLink + '" target="_blank">' +
-                                    EALang.view_appointment_in_google_calendar +
-                                '</a>' +
+                            EALang.appointment_added_to_google_calendar +
+                            '<br>' +
+                            '<a href="' + response.htmlLink + '" target="_blank">' +
+                            EALang.view_appointment_in_google_calendar +
+                            '</a>' +
                             '</p>' +
-                        '</div>'
-                    );
+                            '</div>'
+                            );
                     $('#add-to-google-calendar').hide();
                 });
             });
-        } catch(exc) {
+        } catch (exc) {
             // The user denied access or something else happened, display corresponding message on the screen.
             $('#success-frame').append(
-                '<div class="alert alert-danger col-xs-12">' +
+                    '<div class="alert alert-danger col-xs-12">' +
                     '<h4>' + EALang.oops_something_went_wrong + '</h4>' +
                     '<p>' +
-                        EALang.could_not_add_to_google_calendar +
-                        '<pre>' + exc + '</pre>' +
+                    EALang.could_not_add_to_google_calendar +
+                    '<pre>' + exc + '</pre>' +
                     '</p>' +
-                '</div>');
+                    '</div>');
         }
     }
 });

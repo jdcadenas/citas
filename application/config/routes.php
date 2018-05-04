@@ -1,7 +1,7 @@
 <?php
 
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
   | -------------------------------------------------------------------------
   | URI ROUTING

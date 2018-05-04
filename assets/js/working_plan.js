@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -48,8 +48,8 @@
         $.each(workingPlan, function(index, workingDay) {
             if (workingDay != null) {
                 $('#' + index).prop('checked', true);
-                $('#' + index + '-start').val(Date.parse(workingDay.start).toString('h:mm tt').toUpperCase());
-                $('#' + index + '-end').val(Date.parse(workingDay.end).toString('h:mm tt').toUpperCase());
+                $('#' + index + '-start').val(Date.parse(workingDay.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
+                $('#' + index + '-end').val(Date.parse(workingDay.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
 
                 // Add the day's breaks on the breaks table.
                 $.each(workingDay.breaks, function(i, brk) {
@@ -57,23 +57,23 @@
 
                     var tr =
                             '<tr>' +
-                                '<td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(day) + '</td>' +
-                                '<td class="break-start editable">' + Date.parse(brk.start).toString('h:mm tt').toUpperCase() + '</td>' +
-                                '<td class="break-end editable">' + Date.parse(brk.end).toString('h:mm tt').toUpperCase() + '</td>' +
-                                '<td>' +
-                                    '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
-                                        '<span class="glyphicon glyphicon-pencil"></span>' +
-                                    '</button>' +
-                                    '<button type="button" class="btn btn-default btn-sm delete-break" title="' + EALang.delete + '">' +
-                                        '<span class="glyphicon glyphicon-remove"></span>' +
-                                    '</button>' +
-                                    '<button type="button" class="btn btn-default btn-sm save-break hidden" title="' + EALang.save + '">' +
-                                        '<span class="glyphicon glyphicon-ok"></span>' +
-                                    '</button>' +
-                                    '<button type="button" class="btn btn-default btn-sm cancel-break hidden" title="' + EALang.cancel + '">' +
-                                        '<span class="glyphicon glyphicon-ban-circle"></span>' +
-                                    '</button>' +
-                                '</td>' +
+                            '<td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(day) + '</td>' +
+                            '<td class="break-start editable">' + Date.parse(brk.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase() + '</td>' +
+                            '<td class="break-end editable">' + Date.parse(brk.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase() + '</td>' +
+                            '<td>' +
+                            '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
+                            '<span class="glyphicon glyphicon-pencil"></span>' +
+                            '</button>' +
+                            '<button type="button" class="btn btn-default btn-sm delete-break" title="' + EALang.delete + '">' +
+                            '<span class="glyphicon glyphicon-remove"></span>' +
+                            '</button>' +
+                            '<button type="button" class="btn btn-default btn-sm save-break hidden" title="' + EALang.save + '">' +
+                            '<span class="glyphicon glyphicon-ok"></span>' +
+                            '</button>' +
+                            '<button type="button" class="btn btn-default btn-sm cancel-break hidden" title="' + EALang.cancel + '">' +
+                            '<span class="glyphicon glyphicon-ban-circle"></span>' +
+                            '</button>' +
+                            '</td>' +
                             '</tr>';
                     $('.breaks tbody').append(tr);
                 }.bind(this));
@@ -172,8 +172,8 @@
             var id = $(this).attr('id');
 
             if ($(this).prop('checked') == true) {
-                $('#' + id + '-start').prop('disabled', false).val('9:00 AM');
-                $('#' + id + '-end').prop('disabled', false).val('6:00 PM');
+                $('#' + id + '-start').prop('disabled', false).val(GlobalVariables.timeFormat === 'regular' ? '9:00 AM' : '09:00');
+                $('#' + id + '-end').prop('disabled', false).val(GlobalVariables.timeFormat === 'regular' ? '6:00 PM' : '18:00');
             } else {
                 $('#' + id + '-start').prop('disabled', true).val('');
                 $('#' + id + '-end').prop('disabled', true).val('');
@@ -189,23 +189,23 @@
         $('.add-break').click(function() {
             var tr =
                     '<tr>' +
-                        '<td class="break-day editable">' + EALang.sunday + '</td>' +
-                        '<td class="break-start editable">9:00 AM</td>' +
-                        '<td class="break-end editable">10:00 AM</td>' +
-                        '<td>' +
-                            '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
-                                '<span class="glyphicon glyphicon-pencil"></span>' +
-                            '</button>' +
-                            '<button type="button" class="btn btn-default btn-sm delete-break" title="' + EALang.delete + '">' +
-                                '<span class="glyphicon glyphicon-remove"></span>' +
-                            '</button>' +
-                            '<button type="button" class="btn btn-default btn-sm save-break hidden" title="' + EALang.save + '">' +
-                                '<span class="glyphicon glyphicon-ok"></span>' +
-                            '</button>' +
-                            '<button type="button" class="btn btn-default btn-sm cancel-break hidden" title="' + EALang.cancel + '">' +
-                                '<span class="glyphicon glyphicon-ban-circle"></span>' +
-                            '</button>' +
-                        '</td>' +
+                    '<td class="break-day editable">' + EALang.sunday + '</td>' +
+                    '<td class="break-start editable">' + (GlobalVariables.timeFormat === 'regular' ? '9:00 AM' : '09:00') + '</td>' +
+                    '<td class="break-end editable">' + (GlobalVariables.timeFormat === 'regular' ? '10:00 AM' : '10:00') + '</td>' +
+                    '<td>' +
+                    '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
+                    '<span class="glyphicon glyphicon-pencil"></span>' +
+                    '</button>' +
+                    '<button type="button" class="btn btn-default btn-sm delete-break" title="' + EALang.delete + '">' +
+                    '<span class="glyphicon glyphicon-remove"></span>' +
+                    '</button>' +
+                    '<button type="button" class="btn btn-default btn-sm save-break hidden" title="' + EALang.save + '">' +
+                    '<span class="glyphicon glyphicon-ok"></span>' +
+                    '</button>' +
+                    '<button type="button" class="btn btn-default btn-sm cancel-break hidden" title="' + EALang.cancel + '">' +
+                    '<span class="glyphicon glyphicon-ban-circle"></span>' +
+                    '</button>' +
+                    '</td>' +
                     '</tr>';
             $('.breaks').prepend(tr);
 
@@ -234,7 +234,7 @@
             // Make all cells in current row editable.
             $(this).parent().parent().children().trigger('edit');
             $(this).parent().parent().find('.break-start input, .break-end input').timepicker({
-                timeFormat: 'h:mm TT',
+                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
                 currentText: EALang.now,
                 closeText: EALang.close,
                 timeOnlyTitle: EALang.select_time,
@@ -258,7 +258,7 @@
          * Removes the current line from the "Breaks" table.
          */
         $(document).on('click', '.delete-break', function() {
-           $(this).parent().parent().remove();
+            $(this).parent().parent().remove();
         });
 
         /**
@@ -290,12 +290,12 @@
         $(document).on('click', '.save-break', function(e) {
             // Break's start time must always be prior to break's end.
             var element = e.target,
-                $modifiedRow = $(element).closest('tr'),
-                start = Date.parse($modifiedRow.find('.break-start input').val()),
-                end = Date.parse($modifiedRow.find('.break-end input').val());
+                    $modifiedRow = $(element).closest('tr'),
+                    start = Date.parse($modifiedRow.find('.break-start input').val()),
+                    end = Date.parse($modifiedRow.find('.break-end input').val());
 
             if (start > end) {
-                $modifiedRow.find('.break-end input').val(start.addHours(1).toString('h:mm tt'));
+                $modifiedRow.find('.break-end input').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm'));
             }
 
             this.enableSubmit = true;
@@ -361,7 +361,7 @@
         if (disabled == false) {
             // Set timepickers where needed.
             $('.working-plan input:text').timepicker({
-                timeFormat: 'h:mm TT',
+                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
                 currentText: EALang.now,
                 closeText: EALang.close,
                 timeOnlyTitle: EALang.select_time,
@@ -372,10 +372,10 @@
                 onSelect: function(datetime, inst) {
                     // Start time must be earlier than end time.
                     var start = Date.parse($(this).parent().parent().find('.work-start').val()),
-                        end = Date.parse($(this).parent().parent().find('.work-end').val());
+                            end = Date.parse($(this).parent().parent().find('.work-end').val());
 
                     if (start > end) {
-                        $(this).parent().parent().find('.work-end').val(start.addHours(1).toString('h:mm tt'));
+                        $(this).parent().parent().find('.work-end').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm'));
                     }
                 }
             });

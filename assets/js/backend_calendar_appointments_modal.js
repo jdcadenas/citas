@@ -23,9 +23,6 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
     'use strict';
 
     function _bindEventHandlers() {
-
-
-
         /**
          * Event: Manage Appointments Dialog Cancel Button "Click"
          *
@@ -324,7 +321,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          */
         $('#new-customer').click(function() {
             $('#manage-appointment').find('#customer-id, #first-name, #last-name, #email, '
-                    + '#phone-number, #address, #city, #zip-code, #customer-notes').val('');
+                    + '#phone-number, #address, #city, #customer-notes').val('');
         });
 
         $("#estado input[type=radio]").click(function() {
@@ -387,7 +384,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
         // Setup start and datetimepickers.
         // Get the selected service duration. It will be needed in order to calculate the appointment end datetime.
-        var serviceDuration = 45;
+        var serviceDuration = 0;
         $.each(GlobalVariables.availableServices, function(index, service) {
             if (service.id == $dialog.find('#select-service').val()) {
                 serviceDuration = service.duration;
@@ -415,7 +412,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
         $dialog.find('#start-datetime').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: 'h:mm TT',
+            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
 
             // Translation
             dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
@@ -445,7 +442,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
         $dialog.find('#end-datetime').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: 'h:mm TT',
+            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
 
             // Translation
             dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
@@ -469,7 +466,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             timeText: EALang.time,
             hourText: EALang.hour,
             minuteText: EALang.minutes,
-            firstDay: 1
+            firstDay: 0
         });
         $dialog.find('#end-datetime').datetimepicker('setDate', endDatetime);
     };

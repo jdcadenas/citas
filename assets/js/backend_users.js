@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -19,7 +19,7 @@ window.BackendUsers = window.BackendUsers || {};
  *
  * @module BackendUsers
  */
-(function(exports){
+(function(exports) {
 
     'use strict';
 
@@ -65,12 +65,12 @@ window.BackendUsers = window.BackendUsers || {};
         var html = '<div>';
         $.each(GlobalVariables.services, function(index, service) {
             html +=
-                '<div class="checkbox">' +
+                    '<div class="checkbox">' +
                     '<label class="checkbox">' +
-                        '<input type="checkbox" data-id="' + service.id + '" />' +
-                        service.name +
+                    '<input type="checkbox" data-id="' + service.id + '" />' +
+                    service.name +
                     '</label>' +
-                '</div>';
+                    '</div>';
 
         });
         html += '</div>';
@@ -78,13 +78,13 @@ window.BackendUsers = window.BackendUsers || {};
 
         html = '<div>';
         $.each(GlobalVariables.providers, function(index, provider) {
-           html +=
-                '<div class="checkbox">' +
-                    '<label class="checkbox">'  +
-                        '<input type="checkbox" data-id="' + provider.id + '" />' +
-                        provider.first_name + ' ' + provider.last_name +
+            html +=
+                    '<div class="checkbox">' +
+                    '<label class="checkbox">' +
+                    '<input type="checkbox" data-id="' + provider.id + '" />' +
+                    provider.first_name + ' ' + provider.last_name +
                     '</label>' +
-                '</div>';
+                    '</div>';
 
         });
         html += '</div>';
@@ -139,13 +139,13 @@ window.BackendUsers = window.BackendUsers || {};
 
                     var html = '<div>';
                     $.each(GlobalVariables.providers, function(index, provider) {
-                       html +=
-                            '<div class="checkbox">' +
-                                '<label class="checkbox">'  +
-                                    '<input type="checkbox" data-id="' + provider.id + '" />' +
-                                    provider.first_name + ' ' + provider.last_name +
+                        html +=
+                                '<div class="checkbox">' +
+                                '<label class="checkbox">' +
+                                '<input type="checkbox" data-id="' + provider.id + '" />' +
+                                provider.first_name + ' ' + provider.last_name +
                                 '</label>' +
-                            '</div>';
+                                '</div>';
                     });
                     html += '</div>';
                     $('#secretary-providers').html(html);
