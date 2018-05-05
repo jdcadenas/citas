@@ -3,7 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 // Spanish
 $lang['page_title'] = 'Agendar una cita con';
-$lang['step_one_title'] = 'Seleccione Servicio y Especialista';
+$lang['step_one_title'] = 'Seleccione Servicio';
 $lang['select_service'] = 'Seleccione Servicio';
 $lang['select_provider'] = 'Seleccione Especialista';
 $lang['duration'] = 'Duración';
@@ -27,7 +27,7 @@ $lang['fields_are_required'] = 'Los campos con * son obligatorios';
 $lang['step_four_title'] = 'Confirme la cita';
 $lang['confirm'] = 'Confirmar';
 $lang['update'] = 'Actualizar';
-$lang['cancel_appointment_hint'] = 'Presione el botón "Cancelar" para eliminar la cita de la agenda de la empresa.';
+$lang['cancel_appointment_hint'] = 'Presione el botón "Cancelar" para eliminar reservación de la cita de la agenda de CIAN.';
 $lang['cancel'] = 'Cancelar';
 $lang['appointment_registered'] = 'Su cita ha sido registrada exitosamente';
 $lang['cancel_appointment_title'] = 'Cancelar cita';
@@ -38,15 +38,15 @@ $lang['appointment_removed_from_schedule'] = 'Se eliminó esta cita de la agenda
 $lang['appointment_details_was_sent_to_you'] = 'Se le ha enviado un correo electrónico con los detalles de la cita.';
 $lang['add_to_google_calendar'] = 'Agregar a Google Calendar';
 $lang['appointment_booked'] = 'Su cita ha sido agendada exitosamente';
-$lang['thank_you_for_appointment'] = 'Gracias por utilizar nuestro servicio para agendar su cita.  Debajo encontrará los detalles de su cita. Haga clic en la cita para realizar cambios.';
+$lang['thank_you_for_appointment'] = 'Gracias por utilizar nuestro servicio para Reservar su cita.  Debajo encontrará los detalles de su cita. Haga clic en la cita para realizar cambios.';
 $lang['appointment_details_title'] = 'Detalles de la cita';
 $lang['customer_details_title'] = 'Detalles del Paciente';
 $lang['service'] = 'Servicio';
 $lang['provider'] = 'Especialista';
 $lang['customer'] = 'Paciente';
 
-$lang['attendance_status'] = 'Estado de atenció';
-
+$lang['attendance_status'] = 'Estado de Reservación';
+$lang['status'] = 'Estado';
 $lang['attendance_status_registered'] = 'Reservado';
 $lang['attendance_status_checked_in'] = 'Confirmado ✓';
 $lang['attendance_status_complet'] = 'Completado';

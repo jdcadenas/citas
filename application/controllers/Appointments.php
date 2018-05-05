@@ -416,7 +416,7 @@ class Appointments extends CI_Controller {
 
 
 //modificado jose cadenas
-            //           $appointment['attendance_status'] = !isset($appointment['attendance_status']) ? 'registrado' : $appointment['attendance_status'];
+            //$appointment['attendance_status'] = !isset($appointment['attendance_status']) ? 'registrado' : $appointment['attendance_status'];
 
 
             $provider = $this->providers_model->get_row($appointment['id_users_provider']);

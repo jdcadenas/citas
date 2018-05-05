@@ -144,7 +144,9 @@ class Email {
             'Email' => $this->framework->lang->line('email'),
             'Phone' => $this->framework->lang->line('phone'),
             'Address' => $this->framework->lang->line('address'),
-            'Appointment Link' => $this->framework->lang->line('appointment_link_title')
+            'Appointment Link' => $this->framework->lang->line('appointment_link_title'),
+            'attendance_status' => $this->framework->lang->line('attendance_status'),
+            'Status' => $this->framework->lang->line('Status')
         ];
 
         $html = file_get_contents(__DIR__ . '/../../application/views/emails/appointment_details.php');
