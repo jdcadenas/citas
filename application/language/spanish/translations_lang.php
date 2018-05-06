@@ -52,7 +52,7 @@ $lang['attendance_status_checked_in'] = 'Confirmado ✓';
 $lang['attendance_status_complet'] = 'Completado';
 
 $lang['attendance_action_checked_in'] = 'chequeado';
-$lang['attendance_action_check_in'] = 'Cancelado';
+$lang['attendance_action_check_in'] = 'Por confirmar';
 $lang['attendance_action_undo_check_in'] = 'Pendiente';
 $lang['start'] = 'Inicio';
 $lang['end'] = 'Final';

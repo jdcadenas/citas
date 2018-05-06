@@ -37,6 +37,7 @@ class Appointments_Model extends CI_Model {
 
         // Perform insert() or update() operation.
         if (!isset($appointment['id'])) {
+
             $appointment['id'] = $this->_insert($appointment);
         } else {
             $this->_update($appointment);

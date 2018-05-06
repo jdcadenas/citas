@@ -19,42 +19,43 @@ namespace EA\Engine\Api\V1\Parsers;
  * This class will handle the encoding and decoding from the API requests.
  */
 class Appointments implements ParsersInterface {
+
     /**
      * Encode Response Array
      *
      * @param array &$response The response to be encoded.
      */
-    public function encode(array &$response)
-    {
+    public function encode(array &$response) {
         $encodedResponse = [
-            'id' => $response['id'] !== NULL ? (int)$response['id'] : NULL,
+            'id' => $response['id'] !== NULL ? (int) $response['id'] : NULL,
             'book' => $response['book_datetime'],
             'start' => $response['start_datetime'],
             'end' => $response['end_datetime'],
             'hash' => $response['hash'],
             'notes' => $response['notes'],
-            'customerId' => $response['id_users_customer'] !== NULL ? (int)$response['id_users_customer'] : NULL,
-            'providerId' => $response['id_users_provider'] !== NULL ? (int)$response['id_users_provider'] : NULL,
-            'serviceId' => $response['id_services'] !== NULL ? (int)$response['id_services'] : NULL,
-            'googleCalendarId' => $response['id_google_calendar'] !== NULL ? (int)$response['id_google_calendar'] : NULL
+            'attendanceStatus' => $response['attendance_status'],
+            'customerId' => $response['id_users_customer'] !== NULL ? (int) $response['id_users_customer'] : NULL,
+            'providerId' => $response['id_users_provider'] !== NULL ? (int) $response['id_users_provider'] : NULL,
+            'serviceId' => $response['id_services'] !== NULL ? (int) $response['id_services'] : NULL,
+            'googleCalendarId' => $response['id_google_calendar'] !== NULL ? (int) $response['id_google_calendar'] : NULL
         ];
 
         if (array_key_exists('provider', $response)) {
             $providerParser = new Providers();
             $providerParser->encode($response['provider']);
-            $encodedResponse['provider'] =  $response['provider'];
+            $encodedResponse['provider'] = $response['provider'];
         }
 
         if (array_key_exists('customer', $response)) {
             $customerParser = new Customers();
             $customerParser->encode($response['customer']);
-            $encodedResponse['customer'] =  $response['customer'];
+            $encodedResponse['customer'] = $response['customer'];
         }
 
         if (array_key_exists('service', $response)) {
             $serviceParser = new Services();
             $serviceParser->encode($response['service']);
-            $encodedResponse['service'] =  $response['service'];
+            $encodedResponse['service'] = $response['service'];
         }
 
         $response = $encodedResponse;
@@ -66,57 +67,49 @@ class Appointments implements ParsersInterface {
      * @param array &$request The request to be decoded.
      * @param array $base Optional (null), if provided it will be used as a base array.
      */
-    public function decode(array &$request, array $base = NULL)
-    {
+    public function decode(array &$request, array $base = NULL) {
         $decodedRequest = $base ?: [];
 
-        if ( ! empty($request['id']))
-        {
+        if (!empty($request['id'])) {
             $decodedRequest['id'] = $request['id'];
         }
 
-        if ( ! empty($request['book']))
-        {
+        if (!empty($request['book'])) {
             $decodedRequest['book_datetime'] = $request['book'];
         }
 
-        if ( ! empty($request['start']))
-        {
+        if (!empty($request['start'])) {
             $decodedRequest['start_datetime'] = $request['start'];
         }
 
-        if ( ! empty($request['end']))
-        {
+        if (!empty($request['end'])) {
             $decodedRequest['end_datetime'] = $request['end'];
         }
 
-        if ( ! empty($request['hash']))
-        {
+        if (!empty($request['hash'])) {
             $decodedRequest['hash'] = $request['hash'];
         }
 
-        if ( ! empty($request['notes']))
-        {
+        if (!empty($request['notes'])) {
             $decodedRequest['notes'] = $request['notes'];
         }
+        if (!empty($request['attendanceStatus'])) {
+            $decodedRequest['attendance_status'] = $request['attendanceStatus'];
+        }
 
-        if ( ! empty($request['customerId']))
-        {
+        if (!empty($request['customerId'])) {
             $decodedRequest['id_users_customer'] = $request['customerId'];
         }
 
-        if ( ! empty($request['providerId']))
-        {
+        if (!empty($request['providerId'])) {
             $decodedRequest['id_users_provider'] = $request['providerId'];
         }
 
-        if ( ! empty($request['serviceId']))
-        {
+        if (!empty($request['serviceId'])) {
             $decodedRequest['id_services'] = $request['serviceId'];
         }
 
-        if ( ! empty($request['googleCalendarId']))
-        {
+        if (!empty($request['googleCalendarId'])) {
             $decodedRequest['id_google_calendar'] = $request['googleCalendarId'];
         }
 
@@ -124,4 +117,5 @@ class Appointments implements ParsersInterface {
 
         $request = $decodedRequest;
     }
+
 }

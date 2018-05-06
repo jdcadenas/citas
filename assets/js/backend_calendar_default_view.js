@@ -74,7 +74,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $dialog.find('#select-service').val(appointment.id_services).trigger('change');
                 $dialog.find('#select-provider').val(appointment.id_users_provider);
                 //modificado jose cadenas
-
+                $dialog.find('#attendance-status').val(appointment['attendance_status']);
 
                 console.log(appointment);
                 // var preSelect = appointment.attendance_status;
@@ -443,7 +443,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     + '<br>' +
                     '<strong>' + EALang['attendance_status'] + '</strong> '
                     + '<button id="checked-in-btn" class="btn btn-xs btn-success">'
-                    + (event.data['attendance_status'] == 'registrado' ? 'registrado' : EALang['attendance_action_check_in'])
+                    + (event.data['attendance_status'] == 'registered' ? 'registered' : EALang['attendance_action_check_in'])
                     + '</button>'
 
 

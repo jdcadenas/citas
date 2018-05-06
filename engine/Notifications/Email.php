@@ -127,6 +127,7 @@ class Email {
             '$appointment_start_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime'])),
             '$appointment_end_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['end_datetime'])),
             '$appointment_link' => $appointmentLink->get(),
+            'Status' => $this->framework->lang->line('attendance_status'),
             '$company_link' => $company['company_link'],
             '$company_name' => $company['company_name'],
             '$customer_name' => $customer['first_name'] . ' ' . $customer['last_name'],
@@ -144,9 +145,7 @@ class Email {
             'Email' => $this->framework->lang->line('email'),
             'Phone' => $this->framework->lang->line('phone'),
             'Address' => $this->framework->lang->line('address'),
-            'Appointment Link' => $this->framework->lang->line('appointment_link_title'),
-            'attendance_status' => $this->framework->lang->line('attendance_status'),
-            'Status' => $this->framework->lang->line('Status')
+            'Appointment Link' => $this->framework->lang->line('appointment_link_title')
         ];
 
         $html = file_get_contents(__DIR__ . '/../../application/views/emails/appointment_details.php');
@@ -304,7 +303,7 @@ class Email {
 
         $mailer->From = $data['Email'];
         $mailer->FromName = $data['Name'];
-        $mailer->AddAddress('jdcadenas@gmail.com'); // "Name" argument crushes the phpmailer class.
+        $mailer->AddAddress('ciancentrointegral@gmail.com'); // "Name" argument crushes the phpmailer class.
         $mailer->Subject = $data['Subject'];
         $mailer->Body = $data['Message'];
 

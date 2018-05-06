@@ -22,7 +22,7 @@
                 </div>
                 <div class="styled-input">
                     <input type="text" name="Subject" required="">
-                    <label>De:</label>
+                    <label>Asunto:</label>
                     <span></span>
                 </div>
                 <div class="styled-input">
