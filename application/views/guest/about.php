@@ -120,7 +120,7 @@
         </div>
         <div class="col-md-3 col-sm-6 col-xs-6 team-grids">
           <div class="team-agile-img">
-            <a href="#"><img src="<?= base_url('plantilla/images/t4.jpg') ?>" alt="img"></a>
+            <a href="#"><img src="<?= base_url('plantilla/images/personal/morellamarquz.jpg') ?>" alt="img"></a>
             <div class="view-caption">
               <div class="w3ls-info">
                 <h4></h4>

@@ -1166,7 +1166,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
       height: _getCalendarHeight(),
       editable: true,
       firstDay: 0,
-      snapDuration: '00:30:00',
+      snapDuration: '00:45:00',
       timeFormat: timeFormat,
       slotLabelFormat: slotTimeFormat,
       allDayText: EALang.all_day,
@@ -1252,7 +1252,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
       // agregado min y max dia
       minTime: "07:00:00",
       maxTime: "19:00:00",
-      eventcolor: "#ccbbdd"
+      eventcolor: "#ccbbdd",
+      slotMinutes: 45
 
     });
     // Trigger once to set the proper footer position after calendar initialization.

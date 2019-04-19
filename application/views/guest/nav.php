@@ -88,12 +88,12 @@
 
           <h2 >Centro Integral de Ayuda al Niño</h2>
 
-          <div class="hidden">
-            <a class="btn btn-primary btn-lg btn-primary-outline hidden" href="<?= site_url('appointments'); ?>">
-              <i class="fa fa-book" ></i>
-              <span >Hacer cita</span>
-            </a>
-          </div>
+
+          <a class="btn btn-primary btn-lg btn-primary-outline " href="<?= site_url('Backend'); ?>">
+            <i class="fa fa-book" ></i>
+            <span >Hacer cita</span>
+          </a>
+
         </div>
       </div>
       <!-- //hacer cita fin -->

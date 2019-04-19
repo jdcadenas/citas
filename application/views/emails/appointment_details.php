@@ -35,7 +35,7 @@
           </tr>
           <tr>
             <td class="label" style="padding: 3px;font-weight: bold;">Status</td>
-            <td style="padding: 3px;">$attendance_status</td>
+            <td style="padding: 3px;">Agendado</td>
           </tr>
         </table>
 
@@ -53,11 +53,15 @@
             <td class="label" style="padding: 3px;font-weight: bold;">Phone</td>
             <td style="padding: 3px;">$customer_phone</td>
           </tr>
-
+          <tr>
+            <td class="label" style="padding: 3px;font-weight: bold;">Address</td>
+            <td style="padding: 3px;">$customer_address</td>
+          </tr>
         </table>
 
-        <h2>Appointment Link</h2>
-        <a href="$appointment_link" style="width: 600px;">$appointment_link</a>
+        <!-- <h2>Appointment Link</h2>
+         <a href="$appointment_link" style="width: 600px;">$appointment_link</a>
+        -->
       </div>
 
       <div id="footer" style="padding: 10px; text-align: center; margin-top: 10px;

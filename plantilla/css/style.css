@@ -307,9 +307,9 @@ p {
     text-align: center;
 }
 .w3welcome-img {
-    background: url(../images/img1.jpg)no-repeat center 0px;
+    background: url(../images/IMG_2478n.jpg)no-repeat center 0px;
     background-size: cover;
-    min-height:34.9em;
+    min-height:40em;
     padding: 0;
     position: relative;
     z-index: -1;
@@ -1929,7 +1929,7 @@ h2.typoh2{
 }
 @media(max-width:1366px){
     .w3welcome-img {
-        min-height: 32.3em;
+        min-height: 44em;
     }
 }
 @media(max-width:1280px){
@@ -2031,7 +2031,7 @@ h2.typoh2{
         margin: 1em 12em 0;
     }
     .w3welcome-img {
-        min-height: 28.25em;
+        min-height: 34em;
     }
     .footer-grid.footer-tags {
         padding-left: 3em;
@@ -2405,7 +2405,7 @@ h2.typoh2{
         margin-bottom: .6em;
     }
     .w3welcome-img {
-        min-height: 19em;
+        min-height: 24em;
     }
     .agileits_tom i.fa {
         font-size: 3em;
@@ -2553,7 +2553,7 @@ h2.typoh2{
         width: 21%;
     }
     .w3welcome-img {
-        min-height: 17em;
+        min-height: 24em;
     }
 }
 @media(max-width:414px){
@@ -2734,7 +2734,7 @@ h2.typoh2{
         padding: 6em 0;
     }
     .w3welcome-img {
-        min-height: 13em;
+        min-height: 20em;
     }
     h5.w3l-subtitle {
         font-size: 1.8em;
@@ -2883,7 +2883,7 @@ h2.typoh2{
         font-size: 2em;
     }
     .w3welcome-img {
-        min-height: 11em;
+        min-height: 18em;
     }
     h5.w3l-subtitle {
         font-size: 1.6em;
