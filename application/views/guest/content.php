@@ -26,7 +26,7 @@
                 donde trabajamos con el nino su motricidad gruesa, fisioterapia, terapia ocupacional,
                 estimulación temprana, Babyyoga, en fin cualquier actividad ajustada a la necesidad evolutiva e interes de cada nino</p>
         </div>
-        <img src="<?= base_url('plantilla/images/babygym.jpeg') ?>" class="img-responsive" alt=""/>
+        <img src="<?= base_url('plantilla/images/IMG_babygym.JPG') ?>" class="img-responsive" alt=""/>
 
     </div>
     <div class="clearfix"> </div>

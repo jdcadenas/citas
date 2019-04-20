@@ -8,7 +8,7 @@
                 </div>
                 <div class="col-xs-9 features-w3lright">
                     <h4>CONTACTOS</h4>
-                    <p> 0414-3816504 / 0412-2452027 </p>
+                    <p> 0414-3816504 / 0212-2435975 </p>
                 </div>
                 <div class="clearfix"> </div>
             </div>
